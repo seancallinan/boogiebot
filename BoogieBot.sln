@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C# Express 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoogieBot", "BoogieBot\BoogieBot.csproj", "{0F03561B-2783-435D-8283-0D6C960449C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoogieBot-GUIApp", "BoogieBot-GUIApp\BoogieBot-GUIApp.csproj", "{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F03561B-2783-435D-8283-0D6C960449C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F03561B-2783-435D-8283-0D6C960449C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F03561B-2783-435D-8283-0D6C960449C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F03561B-2783-435D-8283-0D6C960449C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

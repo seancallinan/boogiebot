@@ -1,0 +1,150 @@
+using System;
+using System.Collections;
+using System.Net;
+using System.Net.Sockets;
+using System.Xml;
+using System.Timers;
+using System.IO;
+
+using Foole.Crypt;
+using Foole.Utils;
+using Foole.WoW;
+
+
+namespace BoogieBot.Common
+{
+    // Movement Packet Handling
+    partial class WorldServerClient
+    {
+        private void TeleportHandler(WoWReader wr)
+        {
+            float x, y, z, orient;
+            byte mask = wr.ReadByte();
+
+            WoWGuid guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
+
+            wr.ReadUInt32(); // flags
+            wr.ReadUInt32(); // unk;
+
+            wr.ReadSingle(); // unk2
+            x = wr.ReadSingle();
+            y = wr.ReadSingle();
+            z = wr.ReadSingle();
+            orient = wr.ReadSingle();
+            wr.ReadUInt32(); // unk3
+
+            Object obj = BoogieCore.world.getPlayerObject();
+            obj.coord = new Coordinate(x, y, z, orient);
+
+            WoWWriter ww = new WoWWriter(OpCode.MSG_MOVE_TELEPORT_ACK);
+            Send(ww.ToArray());
+        }
+
+        public void SendMoveHeartBeat()
+        {
+            SendMoveHeartBeat(BoogieCore.World.getPlayerObject().GetPositionX(),
+                                BoogieCore.World.getPlayerObject().GetPositionY(),
+                                BoogieCore.World.getPlayerObject().GetPositionZ(),
+                                BoogieCore.World.getPlayerObject().GetOrientation());
+        }
+
+
+        public void SendMoveHeartBeat(Coordinate c)
+        {
+            SendMoveHeartBeat(c.X, c.Y, c.Z, c.O);
+        }
+
+        public void SendMoveHeartBeat(float x, float y, float z, float o)
+        {
+            
+
+            WoWWriter ww = new WoWWriter(OpCode.MSG_MOVE_HEARTBEAT);
+            ww.Write((UInt32)0);
+            ww.Write((UInt32)MM_GetTime());
+
+            ww.Write(x);
+            ww.Write(y);
+            ww.Write(z);
+            ww.Write(o);
+
+            ww.Write((UInt32)0);
+
+            Send(ww.ToArray());
+        }
+
+        private void MovementHandler(WoWReader wr)
+        {
+            WoWGuid guid;
+            byte mask = wr.ReadByte();
+
+            if (mask == 0x00)
+                return;
+
+            guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
+
+            MovementInfo mi = new MovementInfo(wr);
+
+            Object obj = BoogieCore.world.getObject(guid);
+
+            if (obj != null)
+                obj.coord = new Coordinate(mi.x, mi.y, mi.z, mi.orientation);
+        }
+    }
+
+    public class MovementInfo
+    {
+        public UInt32 time;
+
+        public UInt32 unk8, unk9, unk10, unk11, unk12;
+        public UInt32 unklast;
+        public float unk6;
+        public float x, y, z, orientation;
+        public UInt32 flags;
+        public UInt32 FallTime;
+        public UInt64 transGuid;
+        public float transX, transY, transZ, transO;
+
+        public MovementInfo(WoWReader wr)
+        {
+            transGuid = 0;
+            flags = wr.ReadUInt32();
+            time = wr.ReadUInt32();
+
+            x = wr.ReadFloat();
+            y = wr.ReadFloat();
+            z = wr.ReadFloat();
+            orientation = wr.ReadFloat();
+
+            if ((flags & 0x2000000) >= 1) // Transport
+            {
+                transGuid = wr.ReadUInt64();
+
+                transX = wr.ReadFloat();
+                transY = wr.ReadFloat();
+                transZ = wr.ReadFloat();
+                transO = wr.ReadFloat();
+            }
+
+            if ((flags & 0x200000) >= 1) // Swimming
+            {
+                unk6 = wr.ReadFloat();
+            }
+
+            if ((flags & 0x2000) >= 1) // Falling
+            {
+                FallTime = wr.ReadUInt32();
+                unk8 = wr.ReadUInt32();
+                unk9 = wr.ReadUInt32();
+                unk10 = wr.ReadUInt32();
+            }
+
+            if ((flags & 0x4000000) >= 1)
+            {
+                unk12 = wr.ReadUInt32();
+            }
+
+            if (wr.Remaining >= 4) unklast = wr.ReadUInt32();
+
+        }
+    }
+}
