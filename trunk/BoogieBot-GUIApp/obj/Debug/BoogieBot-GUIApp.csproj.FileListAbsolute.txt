@@ -1,0 +1,16 @@
+C:\Documents and Settings\Administrator\Desktop\boogiebot\bin\Debug\BoogieBotGUI.exe
+C:\Documents and Settings\Administrator\Desktop\boogiebot\bin\Debug\BoogieBotGUI.pdb
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.About.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.CharCreation.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.CharList.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.Chat.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.BoogieBot.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.Move.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.Options.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.Properties.Resources.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.RealmList.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot.GUIApp.Resource1.resources
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBot-GUIApp.csproj.GenerateResource.Cache
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBotGUI.exe
+C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot-GUIApp\obj\Debug\BoogieBotGUI.pdb
