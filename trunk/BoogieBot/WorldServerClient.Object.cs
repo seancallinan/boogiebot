@@ -277,10 +277,10 @@ namespace BoogieBot.Common
                                 facing = wr.ReadSingle();
                                 BoogieCore.Log(LogType.NeworkComms, "Position - X: {0} Y: {1} Z: {2} Orient: {3} ", posX, posY, posZ, facing);
 
-                                if ((flags2 & 0x02000000) >= 1)	// player being transported
+                                if (((flags & 0x20) >= 1 && (flags2 & 0x0200) >= 1))	// player being transported
                                 {
 
-                                    BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x02000000)");
+                                    BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20 && flags2 & 0x0200)");
                                     wr.ReadUInt32();	//guidlow
                                     wr.ReadUInt32();	//guidhigh
                                     wr.ReadSingle();	//x
@@ -324,7 +324,7 @@ namespace BoogieBot.Common
                             if ((flags & 0x20) >= 1)
                             {
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20)");
-                                if ((flags2 & 0x00400000) >= 1)
+                                if ((flags2 & 0x08000000) >= 1)
                                 {
                                     BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x00400000)");
                                     UInt32 splineFlags;
@@ -370,6 +370,8 @@ namespace BoogieBot.Common
                                         posZ = wr.ReadSingle();
                                         //BoogieCore.Log(LogType.NeworkComms, "Position 4 - X: {0} Y: {1} Z: {2} Orient: {3} ", posX, posY, posZ, facing);
                                     }
+                                    
+                                 
                                 }
                             }
 
@@ -398,6 +400,8 @@ namespace BoogieBot.Common
                             UpdateMask UpdateMask = new UpdateMask();
 
                             byte bc = wr.ReadByte(); // Block Count
+                            BoogieCore.Log(LogType.Error, "Block Count = {0}, Mask = {1}, flags = {2}, flags2 = {3}", bc * 32, mask, flags, flags2);
+
 
                             UpdateMask.SetCount((ushort)(bc * 32));
                             UpdateMask.SetMask(wr.ReadBytes(bc * 4), bc);

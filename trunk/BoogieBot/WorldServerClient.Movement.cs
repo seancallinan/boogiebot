@@ -33,8 +33,7 @@ namespace BoogieBot.Common
             orient = wr.ReadSingle();
             wr.ReadUInt32(); // unk3
 
-            Object obj = BoogieCore.world.getPlayerObject();
-            obj.coord = new Coordinate(x, y, z, orient);
+            BoogieCore.world.getPlayerObject().SetCoordinates(new Coordinate(x, y, z, orient));
 
             WoWWriter ww = new WoWWriter(OpCode.MSG_MOVE_TELEPORT_ACK);
             Send(ww.ToArray());
@@ -42,10 +41,7 @@ namespace BoogieBot.Common
 
         public void SendMoveHeartBeat()
         {
-            SendMoveHeartBeat(BoogieCore.World.getPlayerObject().GetPositionX(),
-                                BoogieCore.World.getPlayerObject().GetPositionY(),
-                                BoogieCore.World.getPlayerObject().GetPositionZ(),
-                                BoogieCore.World.getPlayerObject().GetOrientation());
+            SendMoveHeartBeat(BoogieCore.World.getPlayerObject().GetCoordinates());
         }
 
 
@@ -84,10 +80,8 @@ namespace BoogieBot.Common
 
             MovementInfo mi = new MovementInfo(wr);
 
-            Object obj = BoogieCore.world.getObject(guid);
-
-            if (obj != null)
-                obj.coord = new Coordinate(mi.x, mi.y, mi.z, mi.orientation);
+            if (BoogieCore.world.getObject(guid) != null)
+                BoogieCore.world.getObject(guid).SetCoordinates( mi.GetCoordinates() );
         }
     }
 
@@ -103,6 +97,11 @@ namespace BoogieBot.Common
         public UInt32 FallTime;
         public UInt64 transGuid;
         public float transX, transY, transZ, transO;
+
+        public Coordinate GetCoordinates()
+        {
+            return new Coordinate(x, y, z, orientation);
+        }
 
         public MovementInfo(WoWReader wr)
         {
