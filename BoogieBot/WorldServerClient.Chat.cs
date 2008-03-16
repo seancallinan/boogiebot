@@ -84,30 +84,30 @@ namespace BoogieBot.Common
 
         private void Handle_MessageChat(WoWReader wr)
         {
-            byte Type = wr.ReadByte();
-            UInt32 Language = wr.ReadUInt32();
 
-            
             string channel = null;
             UInt64 guid = 0;
             WoWGuid fguid = null, fguid2 = null;
             UInt32 pvp_rank = 0;
 
 
+            byte Type = wr.ReadByte();
+            UInt32 Language = wr.ReadUInt32();
+
+            fguid = new WoWGuid(wr.ReadUInt64());
+            wr.ReadUInt32(); // rank?
+
             if ((ChatMsg)Type == ChatMsg.CHAT_MSG_CHANNEL)
             {
                 channel = wr.ReadString();
-                pvp_rank = wr.ReadUInt32();
-            }
+                //pvp_rank = wr.ReadUInt32();
+            }            
 
-            guid = wr.ReadUInt64();
-            fguid = new WoWGuid(guid);
-
-            if (Type == 0 || Type == 1 || Type == 5 || Type == 0x53)
-            {
+            //if (Type == 0 || Type == 1 || Type == 5 || Type == 0x53)
+            //{
                 fguid2 = new WoWGuid(wr.ReadUInt64());
 
-            }
+            //}
 
             UInt32 Length = wr.ReadUInt32();
             string Message = wr.ReadString();

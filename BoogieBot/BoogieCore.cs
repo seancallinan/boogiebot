@@ -323,7 +323,7 @@ namespace BoogieBot.Common
             {
                 reader = new XmlTextReader(BoogieCore.wowPath + @"\World of Warcraft.app\Contents\Info.plist");
             }
-            catch (Exception ex)
+            catch
             {
                 throw new Exception("Couldn't open WoW.app. Check that it exists, and wowpath is set correctly.");
             }

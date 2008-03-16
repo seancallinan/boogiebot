@@ -20,7 +20,7 @@ namespace BoogieBot.Common
 
         public RealmListClient()
         {
-            // Get our IP address (Broken, re-write)
+            // Get our IP address (TODO: Broken, re-write)
             //IPHostEntry ipEntry = Dns.GetHostEntry(Dns.GetHostName ());
             //int i = 0;
             //foreach (string digit in (((ipEntry.AddressList).ToString()).Split(".".ToCharArray())))

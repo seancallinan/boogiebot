@@ -260,6 +260,16 @@ namespace BoogieBot.Common
         public UInt32 Level;
         public UInt32[] Fields;
 
+        public void SetCoordinates(Coordinate l)
+        {
+            coord = l;
+        }
+
+        public Coordinate GetCoordinates()
+        {
+            return coord;
+        }
+
         public float GetPositionX()
         {
             return coord.X;

@@ -23,8 +23,6 @@ namespace BoogieBot.Common
 
         private Boolean inited = false;
 
-        private int globalCoolDown;
-
         private ActionBars actionBars;                  // Players Action Bars
         private FriendsListItem[] friendsList;          // Friends List
         private IgnoreListItem[] ignoreList;            // Ignore List
