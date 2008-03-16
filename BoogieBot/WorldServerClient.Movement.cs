@@ -85,7 +85,10 @@ namespace BoogieBot.Common
             MovementInfo mi = new MovementInfo(wr);
 
             if (BoogieCore.world.getObject(guid) != null)
-                BoogieCore.world.getObject(guid).SetCoordinates( mi.GetCoordinates() );
+            {
+                BoogieCore.Log(LogType.Error, "Updating coordinates for object {0}, x={1} y={2} z={3}", BoogieCore.world.getObject(guid).Name, mi.x, mi.y, mi.z);
+                BoogieCore.world.getObject(guid).SetCoordinates(mi.GetCoordinates());
+            }
         }
     }
 
@@ -111,6 +114,7 @@ namespace BoogieBot.Common
         {
             transGuid = 0;
             flags = wr.ReadUInt32();
+            wr.ReadByte();
             time = wr.ReadUInt32();
 
             x = wr.ReadFloat();

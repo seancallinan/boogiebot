@@ -58,27 +58,19 @@ namespace BoogieBot.Common
                     case OpCode.SMSG_SET_PROFICIENCY:
                         break;
                     case OpCode.MSG_MOVE_HEARTBEAT:
-                        MovementHandler(wr);
-                        break;
                     case OpCode.MSG_MOVE_START_TURN_RIGHT:
-                        MovementHandler(wr);
-                        break;
                     case OpCode.MSG_MOVE_STOP:
-                        MovementHandler(wr);
-                        break;
                     case OpCode.MSG_MOVE_START_TURN_LEFT:
-                        MovementHandler(wr);
-                        break;
                     case OpCode.MSG_MOVE_START_FORWARD:
-                        MovementHandler(wr);
-                        break;
                     case OpCode.MSG_MOVE_START_BACKWARD:
-                        MovementHandler(wr);
-                        break;
-                    case OpCode.SMSG_MONSTER_MOVE:
-                        break;
+                    case OpCode.MSG_MOVE_STOP_TURN:
+                    case OpCode.MSG_MOVE_START_STRAFE_LEFT:
+                    case OpCode.MSG_MOVE_START_STRAFE_RIGHT:
+                    case OpCode.MSG_MOVE_STOP_STRAFE:
+                    case OpCode.MSG_MOVE_FALL_LAND:
+                    case OpCode.MSG_MOVE_JUMP:
                     case OpCode.MSG_MOVE_SET_FACING:
-                        //MovementHandler(wr);
+                        MovementHandler(wr);
                         break;
                     case OpCode.SMSG_EMOTE:
                         break;
@@ -91,8 +83,7 @@ namespace BoogieBot.Common
                         Handle_NewWorld(wr);
                         break;
                     case OpCode.SMSG_FORCE_MOVE_UNROOT:
-                        Coordinate c = BoogieCore.world.getPlayerObject().coord;
-                        SendMoveHeartBeat(c);
+                        SendMoveHeartBeat(BoogieCore.world.getPlayerObject().GetCoordinates());
                         break;
                     case OpCode.SMSG_UPDATE_OBJECT:
                         Handle_ObjUpdate(wr, false);
