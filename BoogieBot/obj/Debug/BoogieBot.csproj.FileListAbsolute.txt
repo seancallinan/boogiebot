@@ -1,7 +1,0 @@
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Debug\BoogieBot.Common.Properties.Resources.resources
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Debug\BoogieBot.csproj.GenerateResource.Cache
-C:\Documents and Settings\Administrator\Desktop\boogiebot\bin\Debug\BoogieBot.dll
-C:\Documents and Settings\Administrator\Desktop\boogiebot\bin\Debug\BoogieBot.pdb
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Debug\BoogieBot.dll
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Debug\BoogieBot.pdb
