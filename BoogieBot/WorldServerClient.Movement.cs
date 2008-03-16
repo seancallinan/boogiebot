@@ -24,14 +24,17 @@ namespace BoogieBot.Common
             WoWGuid guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
 
             wr.ReadUInt32(); // flags
-            wr.ReadUInt32(); // unk;
+            
+            wr.ReadUInt32(); // time?
+            wr.ReadByte(); // unk 2.3.0
 
             wr.ReadSingle(); // unk2
             x = wr.ReadSingle();
             y = wr.ReadSingle();
             z = wr.ReadSingle();
             orient = wr.ReadSingle();
-            wr.ReadUInt32(); // unk3
+            wr.ReadUInt16(); // unk3
+            wr.ReadByte(); // unk4
 
             BoogieCore.world.getPlayerObject().SetCoordinates(new Coordinate(x, y, z, orient));
 
@@ -56,6 +59,7 @@ namespace BoogieBot.Common
 
             WoWWriter ww = new WoWWriter(OpCode.MSG_MOVE_HEARTBEAT);
             ww.Write((UInt32)0);
+            ww.Write((byte)0);
             ww.Write((UInt32)MM_GetTime());
 
             ww.Write(x);

@@ -180,6 +180,9 @@ namespace BoogieBot.Common
         public void JoinChannel(string channel, string password)
         {
             WoWWriter wr = new WoWWriter(OpCode.CMSG_JOIN_CHANNEL);
+            wr.Write((UInt32)0); // dbc id??
+            wr.Write((UInt16)0); // crap as ascent put it
+
             wr.Write(channel);
             wr.Write((byte)0);
             Send(wr.ToArray());
@@ -193,6 +196,7 @@ namespace BoogieBot.Common
         public void PartChannel(string channel)
         {
             WoWWriter wr = new WoWWriter(OpCode.CMSG_LEAVE_CHANNEL);
+            wr.Write((UInt32)0);
             wr.Write(channel);
             Send(wr.ToArray());
 
