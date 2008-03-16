@@ -1,8 +1,0 @@
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\bin\Release\BoogieBot.dll
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\bin\Release\BoogieBot.pdb
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\bin\Release\ICSharpCode.SharpZipLib.dll
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Release\ResolveAssemblyReference.cache
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Release\BoogieBot.Common.Properties.Resources.resources
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Release\BoogieBot.csproj.GenerateResource.Cache
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Release\BoogieBot.dll
-C:\Documents and Settings\Administrator\Desktop\boogiebot\BoogieBot\obj\Release\BoogieBot.pdb
