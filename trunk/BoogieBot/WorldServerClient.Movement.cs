@@ -16,6 +16,11 @@ namespace BoogieBot.Common
     // Movement Packet Handling
     partial class WorldServerClient
     {
+
+        public enum MoveState { StartRun, Run, StartWalk, Walk, StartStrafeL, StartStrafeR, StrafeR, StrafeL, StopRun, StopWalk, StopStrafe };
+
+        public UInt16 MoveMask = 0;
+
         private void TeleportHandler(WoWReader wr)
         {
             float x, y, z, orient;
@@ -55,9 +60,43 @@ namespace BoogieBot.Common
 
         public void SendMoveHeartBeat(float x, float y, float z, float o)
         {
-            
+            BuildMovePacket(OpCode.MSG_MOVE_HEARTBEAT, x, y, z, o);
+        }
 
-            WoWWriter ww = new WoWWriter(OpCode.MSG_MOVE_HEARTBEAT);
+        public void StartMoveForward()
+        {
+            BuildMovePacket(OpCode.MSG_MOVE_START_FORWARD, BoogieCore.world.getPlayerObject().GetCoordinates());
+        }
+
+        public void StopMoveForward()
+        {
+            BuildMovePacket(OpCode.MSG_MOVE_STOP, BoogieCore.world.getPlayerObject().GetCoordinates());
+        }
+
+        public void MoveJump()
+        {
+            BuildMovePacket(OpCode.MSG_MOVE_JUMP, BoogieCore.world.getPlayerObject().GetCoordinates());
+        }
+        private  void BuildMovePacket(OpCode op, Coordinate c)
+        {
+            WoWWriter ww = new WoWWriter(op);
+            ww.Write((UInt32)0);
+            ww.Write((byte)0);
+            ww.Write((UInt32)MM_GetTime());
+
+            ww.Write(c.X);
+            ww.Write(c.Y);
+            ww.Write(c.Z);
+            ww.Write(c.O);
+
+            ww.Write((UInt32)0);
+
+            Send(ww.ToArray());
+        }
+
+        private void BuildMovePacket(OpCode op, float x, float y, float z, float o)
+        {
+            WoWWriter ww = new WoWWriter(op);
             ww.Write((UInt32)0);
             ww.Write((byte)0);
             ww.Write((UInt32)MM_GetTime());

@@ -24,5 +24,10 @@ namespace BoogieBot.GUIApp
         {
             //MessageBox("Selected index changed! "
         }
+
+        private void CharCreation_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

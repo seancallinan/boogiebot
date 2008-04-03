@@ -54,5 +54,21 @@ namespace BoogieBot.GUIApp
         {
             return new Coordinate(float.Parse(upx.Text), float.Parse(upy.Text), float.Parse(upz.Text), float.Parse(upo.Text));
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            BoogieCore.world.StartRunForward();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            BoogieCore.world.StartJump();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            BoogieCore.world.StopRun();
+        }
+        
     }
 }

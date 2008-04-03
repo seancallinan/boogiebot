@@ -123,6 +123,11 @@ namespace BoogieBot.Common
             return mObjects;
         }
 
+        public Object[] getObjectListArray()
+        {
+            return mObjects.ToArray();
+        }
+
         /// <summary>Returns whether a certain Object already exists in the World.</summary>
         /// <param name="o">Objects guid to check for.</param>
         public Boolean objectExists(WoWGuid guid)
@@ -184,6 +189,20 @@ namespace BoogieBot.Common
             BoogieCore.WorldServerClient.SendMoveHeartBeat(c);
         }
 
+        public void StartRunForward()
+        {
+            BoogieCore.Log(LogType.System, "Starting run forward!");
+            BoogieCore.WorldServerClient.StartMoveForward();
+        }
+        public void StopRun()
+        {
+            BoogieCore.WorldServerClient.StopMoveForward();
+        }
+
+        public void StartJump()
+        {
+            BoogieCore.WorldServerClient.MoveJump();
+        }
         /// <summary>Tells the server to retrieve the mail list. Must be near a mailbox to work.</summary>
         public void getMail()
         {
