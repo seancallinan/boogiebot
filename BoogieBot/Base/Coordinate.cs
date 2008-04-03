@@ -35,6 +35,13 @@ namespace BoogieBot.Common
             return String.Format("xyz = ({0}, {1}, {2})  Orient = ({3})", x, y, z, o);
         }
 
+        public float DistanceTo(Coordinate c)
+        {
+            float dx = x - c.X;
+            float dy = y - c.Y;
+            float dz = z - c.Z;
+            return (float)Math.Sqrt(dx * dx + dy * dy + dz * dz);
+        }
         public float X
         {
             get { return x; }

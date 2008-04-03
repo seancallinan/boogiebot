@@ -11,6 +11,7 @@ namespace BoogieBot.Common
     public class Player
     {
         private Character character;
+        private Object obj;
 
         private uint level;
         private uint exp;
@@ -49,6 +50,7 @@ namespace BoogieBot.Common
         // Initialize Player, with Player Object Update Fields :D
         public void setPlayer(Object po)
         {
+            obj = po;
             BoogieCore.Log(LogType.System, "Player Class Initialized!");
 
             level           = po.Fields[(int)UpdateFields.UNIT_FIELD_LEVEL];
@@ -73,6 +75,8 @@ namespace BoogieBot.Common
         {
             if (!inited)
                 return;
+
+            obj = po;
 
             BoogieCore.Log(LogType.System, "Player Class Updated!");
 
@@ -145,6 +149,14 @@ namespace BoogieBot.Common
         public Buffs        Buffs       { get { return buffs;       } }
         public Debuffs      Debuffs     { get { return debuffs;     } }
         public QuestLog     QuestLog    { get { return questLog;    } }
+        public bool         IsDead      { get { return false; } } // todo
+        public bool         IsInCombat { get { return false; } } // todo
+
+
+        public float DistanceTo(Coordinate l)
+        {
+            return obj.GetCoordinates().DistanceTo(l);
+        }
 
         public override String ToString()
         {

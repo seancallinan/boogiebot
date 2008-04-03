@@ -168,8 +168,8 @@ namespace BoogieBot.Common
 
         private void Update(UInt32 diff)
         {
-            // Fill in the blanks
-            // 
+            
+
         }
 
         public void StopThread(bool wait)

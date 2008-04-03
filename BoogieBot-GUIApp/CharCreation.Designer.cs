@@ -91,6 +91,7 @@ namespace BoogieBot.GUIApp
             this.Controls.Add(this.name);
             this.Name = "CharCreation";
             this.Text = "Create";
+            this.Load += new System.EventHandler(this.CharCreation_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
