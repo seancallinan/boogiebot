@@ -32,11 +32,16 @@ namespace BoogieBot.Common
         private void Handle_NewWorld(WoWReader wr)
         {
             Object obj = BoogieCore.world.getPlayerObject();
-            LoginChar(obj.GUID.GetOldGuid());
+            WorldZone(obj.GUID.GetOldGuid());
+            
             UInt32 mapid = wr.ReadUInt32();
             BoogieCore.world.zoned(mapid);          // Tell World we zoned, and give new mapid
             obj.coord = new Coordinate(wr.ReadSingle(), wr.ReadSingle(), wr.ReadSingle(), wr.ReadSingle());
+            WoWWriter ww = new WoWWriter(OpCode.MSG_MOVE_WORLDPORT_ACK);
+            //ww.Write(BoogieCore.world.getPlayerObject().GUID.GetOldGuid());
+            Send(ww.ToArray());
             SendMoveHeartBeat(obj.coord);
+            BoogieCore.Log(LogType.System, "Got worldport for mapid: {0} xyz: {1} {2} {3}", mapid, obj.coord.X, obj.coord.Y, obj.coord.Z);
             BoogieCore.world.updatePlayerLocationUI();
         }
 

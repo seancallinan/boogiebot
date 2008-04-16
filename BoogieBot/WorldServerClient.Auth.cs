@@ -267,6 +267,26 @@ namespace BoogieBot.Common
             BoogieCore.Event(e);
         }
 
+        public void WorldZone(UInt64 guid)
+        {
+            WoWWriter ww = new WoWWriter(OpCode.CMSG_PLAYER_LOGIN);
+            ww.Write(guid);
+            Send(ww.ToArray());
+
+            ww = new WoWWriter(OpCode.CMSG_UPDATE_ACCOUNT_DATA);
+            ww.Write((UInt32)7);
+            ww.Write((UInt32)5144);
+            ww.Write(account_data);
+            Send(ww.ToArray());
+
+            ww = new WoWWriter(OpCode.CMSG_NAME_QUERY);
+            ww.Write(guid);
+            Send(ww.ToArray());
+
+            ww = new WoWWriter(OpCode.CMSG_SET_ACTIVE_MOVER);
+            ww.Write(guid);
+            Send(ww.ToArray());
+        }
         public void LoginChar(UInt64 guid)
         {
             foreach (Character c in characterList)
