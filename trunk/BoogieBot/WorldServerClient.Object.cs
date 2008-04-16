@@ -38,7 +38,9 @@ namespace BoogieBot.Common
             for (UInt32 i = 0; i < blockCount; i++)
             {
                 blockType = wr.ReadByte();
+                #if (DEBUG)
                 BoogieCore.Log(LogType.NeworkComms, "Block #{0}/{1} Type: {2}", i+1, blockCount, blockType);
+                #endif
 
                 switch (blockType)
                 {
@@ -92,8 +94,9 @@ namespace BoogieBot.Common
                                 break;
 
                             guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
+                            #if (DEBUG)
                             BoogieCore.Log(LogType.NeworkComms, "Got Movement update for GUID {0}", BitConverter.ToUInt64(guid.GetNewGuid(), 0));
-
+#endif
                             UInt32 flags2 = 0, unk3;
                             float posX = 0;
                             float posY = 0;
@@ -105,7 +108,9 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x20) >= 1)
                             {
+                                #if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
+#endif
                                 flags2 = wr.ReadUInt32();
                                 wr.ReadByte(); // 2.3.3
                                 unk3 = wr.ReadUInt32();
@@ -113,17 +118,21 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x40) >= 1)
                             {
+                                #if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 40)");
+#endif
                                 posX = wr.ReadSingle();
                                 posY = wr.ReadSingle();
                                 posZ = wr.ReadSingle();
                                 facing = wr.ReadSingle();
+#if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "Position - X: {0} Y: {1} Z: {2} Orient: {3} ", posX, posY, posZ, facing);
-
+#endif
                                 if ((flags2 & 0x02000000) >= 1)	// player being transported
                                 {
-
+                                    #if (DEBUG)
                                     BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x02000000)");
+#endif
                                     wr.ReadUInt32();	//guidlow
                                     wr.ReadUInt32();	//guidhigh
                                     wr.ReadSingle();	//x
@@ -137,11 +146,15 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x20) >= 1)
                             {
+                                #if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
+#endif
                                 wr.ReadSingle(); //unk
                                 if ((flags2 & 0x2000) >= 1)
                                 {
+#if (DEBUG)
                                     BoogieCore.Log(LogType.NeworkComms, "(flags & 2000)");
+#endif
                                     wr.ReadSingle(); // pos unk1
                                     wr.ReadSingle(); // pos unk1
                                     wr.ReadSingle(); // pos unk1
@@ -152,7 +165,9 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x20) >= 1)
                             {
+                                #if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
+#endif
                                 walkSpeed = wr.ReadSingle();
                                 runSpeed = wr.ReadSingle();
                                 backWalkSpeed = wr.ReadSingle();
@@ -161,37 +176,37 @@ namespace BoogieBot.Common
                                 wr.ReadSingle(); //unk1
                                 wr.ReadSingle(); //unk2
                                 turnRate = wr.ReadSingle();
-                                BoogieCore.Log(LogType.NeworkComms, "Speed - (flags & 0x20)");
+                                //BoogieCore.Log(LogType.NeworkComms, "Speed - (flags & 0x20)");
                             }
 
                             if ((flags & 0x20) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20)");
                                 if ((flags2 & 0x00400000) >= 1)
                                 {
-                                    BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x00400000)");
+                                    //BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x00400000)");
                                     UInt32 splineFlags;
 
                                     splineFlags = wr.ReadUInt32();
 
                                     if ((splineFlags & 0x00010000) >= 1)
                                     {
-                                        BoogieCore.Log(LogType.NeworkComms, "(splineFlags & 0x00010000)");
+                                        //BoogieCore.Log(LogType.NeworkComms, "(splineFlags & 0x00010000)");
                                         posX = wr.ReadSingle();
                                         posY = wr.ReadSingle();
                                         posZ = wr.ReadSingle();
-                                        BoogieCore.Log(LogType.NeworkComms, "Position 3 - X: {0} Y: {1} Z: {2} Orient: {3} ", posX, posY, posZ, facing);
+                                        //BoogieCore.Log(LogType.NeworkComms, "Position 3 - X: {0} Y: {1} Z: {2} Orient: {3} ", posX, posY, posZ, facing);
                                     }
 
                                     if ((splineFlags & 0x00020000) >= 1)
                                     {
-                                        BoogieCore.Log(LogType.NeworkComms, "(splineFlags & 0x00020000)");
+                                        //BoogieCore.Log(LogType.NeworkComms, "(splineFlags & 0x00020000)");
                                         wr.ReadUInt64();
                                     }
 
                                     if ((splineFlags & 0x00040000) >= 1)
                                     {
-                                        BoogieCore.Log(LogType.NeworkComms, "(splineFlags & 0x00040000)");
+                                        //BoogieCore.Log(LogType.NeworkComms, "(splineFlags & 0x00040000)");
                                         float f;
                                         f = wr.ReadSingle();
                                     }
@@ -203,7 +218,7 @@ namespace BoogieBot.Common
                                     time2 = wr.ReadUInt32();
                                     unk4 = wr.ReadUInt32();
                                     splineCount = wr.ReadUInt32();
-                                    BoogieCore.Log(LogType.NeworkComms, "splineCount = {0}", splineCount);
+                                    //BoogieCore.Log(LogType.NeworkComms, "splineCount = {0}", splineCount);
 
                                     for (UInt32 j = 0; j < splineCount + 1; j++)
                                     {
@@ -218,23 +233,31 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x8) >= 1)
                             {
+                                #if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 8)");
+#endif
                                 wr.ReadUInt32();
                                 if ((flags & 0x10) >= 1)
                                 {
+#if (DEBUG)
                                     BoogieCore.Log(LogType.NeworkComms, "(flags & 10)");
+#endif
                                     wr.ReadUInt32();
                                 }
                             }
                             else if ((flags & 0x10) >= 1)
                             {
+                                #if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 10)");
+#endif
                                 wr.ReadUInt32();
                             }
 
                             if ((flags & 0x2) >= 1)
                             {
+                                #if (DEBUG)
                                 BoogieCore.Log(LogType.NeworkComms, "(flags & 0x2)");
+#endif
                                 wr.ReadUInt32();
                             }
 
@@ -248,9 +271,9 @@ namespace BoogieBot.Common
 
                             guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
                             objTypeId = wr.ReadByte();
-
+                            #if (DEBUG)
                             BoogieCore.Log(LogType.NeworkComms, "Got Object Create Mask: 0x{0:x2} GUID: {1} ObjTypeID: {2} ", mask, BitConverter.ToUInt64(guid.GetNewGuid(), 0), objTypeId);
-
+#endif
                             UInt32 flags2 = 0, unk3;
                             float posX = 0;
                             float posY = 0;
@@ -262,7 +285,7 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x20) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
                                 flags2 = wr.ReadUInt32();
                                 wr.ReadByte(); // 2.3.3
                                 unk3 = wr.ReadUInt32();
@@ -270,17 +293,17 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x40) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 40)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 40)");
                                 posX = wr.ReadSingle();
                                 posY = wr.ReadSingle();
                                 posZ = wr.ReadSingle();
                                 facing = wr.ReadSingle();
-                                BoogieCore.Log(LogType.NeworkComms, "Position - X: {0} Y: {1} Z: {2} Orient: {3} ", posX, posY, posZ, facing);
+                                //BoogieCore.Log(LogType.NeworkComms, "Position - X: {0} Y: {1} Z: {2} Orient: {3} ", posX, posY, posZ, facing);
 
                                 if (((flags & 0x20) >= 1 && (flags2 & 0x0200) >= 1))	// player being transported
                                 {
 
-                                    BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20 && flags2 & 0x0200)");
+                                    //BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20 && flags2 & 0x0200)");
                                     wr.ReadUInt32();	//guidlow
                                     wr.ReadUInt32();	//guidhigh
                                     wr.ReadSingle();	//x
@@ -294,11 +317,11 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x20) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
                                 wr.ReadSingle(); //unk
                                 if ((flags2 & 0x2000) >= 1)
                                 {
-                                    BoogieCore.Log(LogType.NeworkComms, "(flags & 2000)");
+                                    //BoogieCore.Log(LogType.NeworkComms, "(flags & 2000)");
                                     wr.ReadSingle(); // pos unk1
                                     wr.ReadSingle(); // pos unk1
                                     wr.ReadSingle(); // pos unk1
@@ -309,7 +332,7 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x20) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 20)");
                                 walkSpeed = wr.ReadSingle();
                                 runSpeed = wr.ReadSingle();
                                 backWalkSpeed = wr.ReadSingle();
@@ -318,15 +341,15 @@ namespace BoogieBot.Common
                                 wr.ReadSingle(); //unk1
                                 wr.ReadSingle(); //unk2
                                 turnRate = wr.ReadSingle();
-                                BoogieCore.Log(LogType.NeworkComms, "Speed - (flags & 0x20)");
+                                //BoogieCore.Log(LogType.NeworkComms, "Speed - (flags & 0x20)");
                             }
 
                             if ((flags & 0x20) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 0x20)");
                                 if ((flags2 & 0x08000000) >= 1)
                                 {
-                                    BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x00400000)");
+                                    //BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x00400000)");
                                     UInt32 splineFlags;
 
                                     splineFlags = wr.ReadUInt32();
@@ -377,30 +400,30 @@ namespace BoogieBot.Common
 
                             if ((flags & 0x8) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 8)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 8)");
                                 wr.ReadUInt32();
                                 if ((flags & 0x10) >= 1)
                                 {
-                                    BoogieCore.Log(LogType.NeworkComms, "(flags & 10)");
+                                    //BoogieCore.Log(LogType.NeworkComms, "(flags & 10)");
                                     wr.ReadUInt32();
                                 }
                             }
                             else if ((flags & 0x10) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 10)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 10)");
                                 wr.ReadUInt32();
                             }
 
                             if ((flags & 0x2) >= 1)
                             {
-                                BoogieCore.Log(LogType.NeworkComms, "(flags & 0x2)");
+                                //BoogieCore.Log(LogType.NeworkComms, "(flags & 0x2)");
                                 wr.ReadUInt32();
                             }
 
                             UpdateMask UpdateMask = new UpdateMask();
 
                             byte bc = wr.ReadByte(); // Block Count
-                            BoogieCore.Log(LogType.Error, "Block Count = {0}, Mask = {1}, flags = {2}, flags2 = {3}", bc * 32, mask, flags, flags2);
+                            //BoogieCore.Log(LogType.Error, "Block Count = {0}, Mask = {1}, flags = {2}, flags2 = {3}", bc * 32, mask, flags, flags2);
 
 
                             UpdateMask.SetCount((ushort)(bc * 32));
@@ -413,7 +436,7 @@ namespace BoogieBot.Common
                                 return;
                             }
 
-                            BoogieCore.Log(LogType.NeworkComms, "(ObjCreate) FieldCount: {0}", UpdateMask.GetCount());
+                            //BoogieCore.Log(LogType.NeworkComms, "(ObjCreate) FieldCount: {0}", UpdateMask.GetCount());
                             UInt32[] Fields = new UInt32[UpdateMask.GetCount()];
 
                             for (ushort x = 0; x < UpdateMask.GetCount(); x++)

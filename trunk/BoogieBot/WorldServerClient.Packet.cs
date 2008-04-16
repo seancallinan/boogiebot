@@ -50,7 +50,7 @@ namespace BoogieBot.Common
                                 Ping_Res_Time = MM_GetTime();
                                 Latency = Ping_Res_Time - Ping_Req_Time;
                                 Ping_Seq += 1;
-                                BoogieCore.Log(LogType.NeworkComms, "Got pong'd with a latency of: {0} sequence: {1}", Latency, Server_Seq);
+                                //BoogieCore.Log(LogType.NeworkComms, "Got pong'd with a latency of: {0} sequence: {1}", Latency, Server_Seq);
                             }
                             else
                                 BoogieCore.Log(LogType.Error, "Server pong'd bad sequence! Ours: {0} Theirs: {1}", Ping_Seq, Server_Seq);
