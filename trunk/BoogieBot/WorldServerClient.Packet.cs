@@ -13,8 +13,12 @@ namespace BoogieBot.Common
     {
         protected void processData(byte[] Data)
         {
+            
             WoWReader wr = new WoWReader(Data);
             OpCode Op = (OpCode)wr.ReadUInt16();
+
+            BoogieCore.Log(LogType.NeworkComms, "Debugging packet for opcode: {0}", Op);
+            SMSG_Debug(new WoWReader(Data));
 
             try
             {
@@ -128,9 +132,9 @@ namespace BoogieBot.Common
                     case OpCode.SMSG_FRIEND_STATUS:
                         Handle_FriendStatus(wr);
                         break;
-                    case OpCode.SMSG_IGNORE_LIST:
-                        Handle_IgnoreList(wr);
-                        break;
+                    //case OpCode.SMSG_IGNORE_LIST:
+                    //    Handle_IgnoreList(wr);
+                    //    break;
                     case OpCode.SMSG_INIT_WORLD_STATES:
                         Handle_InitWorldStates(wr);
                         break;

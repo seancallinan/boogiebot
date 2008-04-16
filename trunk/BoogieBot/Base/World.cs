@@ -41,8 +41,6 @@ namespace BoogieBot.Common
         {
             mMapID = mapid;
 
-            BoogieCore.terrainManager.zoned();
-            BoogieCore.wmoManager.zoned();
         }
 
         /// <summary>Adds a new Object to the World.</summary>
@@ -230,11 +228,9 @@ namespace BoogieBot.Common
             Event e1 = new Event(EventType.EVENT_SELF_MOVED, Time.GetTime(), mObj.coord);
             BoogieCore.Event(e1);
 
-            // Update the UI on our location (text format)
-            String location = BoogieCore.terrainManager.getLocationAsString(mObj.coord, mMapID, 0); // FIXME: zoneid?
 
-            Event e2 = new Event(EventType.EVENT_LOCATION_UPDATE, Time.GetTime(), location);
-            BoogieCore.Event(e2);
+            //Event e2 = new Event(EventType.EVENT_LOCATION_UPDATE, Time.GetTime(), location);
+            //BoogieCore.Event(e2);
         }
 
 

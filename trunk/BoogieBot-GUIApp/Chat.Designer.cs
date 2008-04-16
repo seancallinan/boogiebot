@@ -56,6 +56,7 @@ namespace BoogieBot.GUIApp
             this.input.Name = "input";
             this.input.Size = new System.Drawing.Size(536, 20);
             this.input.TabIndex = 1;
+            this.input.TextChanged += new System.EventHandler(this.input_TextChanged);
             this.input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Input_KeyDown);
             // 
             // output
@@ -78,7 +79,7 @@ namespace BoogieBot.GUIApp
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Chat";
             this.Text = "Chat";
-            this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.OnClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

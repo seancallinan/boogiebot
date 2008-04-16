@@ -15,33 +15,57 @@ namespace BoogieBot.Common
 {
     public enum ChatMsg
     {
-        CHAT_MSG_SAY = 0x00,
-        CHAT_MSG_PARTY = 0x01,
-        CHAT_MSG_RAID = 0x02,
-        CHAT_MSG_GUILD = 0x03,
-        CHAT_MSG_OFFICER = 0x04,
-        CHAT_MSG_YELL = 0x05,
-        CHAT_MSG_WHISPER = 0x06,
-        CHAT_MSG_WHISPER_INFORM = 0x07,
-        CHAT_MSG_EMOTE = 0x08,
-        CHAT_MSG_TEXT_EMOTE = 0x09,
-        CHAT_MSG_SYSTEM = 0x0A,
-        CHAT_MSG_MONSTER_SAY = 0x0B,
-        CHAT_MSG_MONSTER_YELL = 0x0C,
-        CHAT_MSG_MONSTER_EMOTE = 0x0D,
-        CHAT_MSG_CHANNEL = 0x0E,
-        CHAT_MSG_CHANNEL_JOIN = 0x0F,
-        CHAT_MSG_CHANNEL_LEAVE = 0x10,
-        CHAT_MSG_CHANNEL_LIST = 0x11,
-        CHAT_MSG_CHANNEL_NOTICE = 0x12,
-        CHAT_MSG_CHANNEL_NOTICE_USER = 0x13,
-        CHAT_MSG_AFK = 0x14,
-        CHAT_MSG_DND = 0x15,
-        CHAT_MSG_COMBAT_LOG = 0x16,
-        CHAT_MSG_IGNORED = 0x17,
-        CHAT_MSG_SKILL = 0x18,
-        CHAT_MSG_LOOT = 0x19,
-        CHAT_MSG_RAIDLEADER = 0x57,
+        CHAT_MSG_ADDON = 0,
+        CHAT_MSG_SAY = 1,
+        CHAT_MSG_PARTY = 2,
+        CHAT_MSG_RAID = 3,
+        CHAT_MSG_GUILD = 4,
+        CHAT_MSG_OFFICER = 5,
+        CHAT_MSG_YELL = 6,
+        CHAT_MSG_WHISPER = 7,
+        CHAT_MSG_WHISPER_MOB = 8,
+        CHAT_MSG_WHISPER_INFORM = 9,
+        CHAT_MSG_EMOTE = 10,
+        CHAT_MSG_TEXT_EMOTE = 11,
+        CHAT_MSG_MONSTER_SAY = 12,
+        CHAT_MSG_MONSTER_PARTY = 13,
+        CHAT_MSG_MONSTER_YELL = 14,
+        CHAT_MSG_MONSTER_WHISPER = 15,
+        CHAT_MSG_MONSTER_EMOTE = 16,
+        CHAT_MSG_CHANNEL = 17,
+        CHAT_MSG_CHANNEL_JOIN = 18,
+        CHAT_MSG_CHANNEL_LEAVE = 19,
+        CHAT_MSG_CHANNEL_LIST = 20,
+        CHAT_MSG_CHANNEL_NOTICE = 21,
+        CHAT_MSG_CHANNEL_NOTICE_USER = 22,
+        CHAT_MSG_AFK = 23,
+        CHAT_MSG_DND = 24,
+        CHAT_MSG_IGNORED = 25,
+        CHAT_MSG_SKILL = 26,
+        CHAT_MSG_LOOT = 27,
+        CHAT_MSG_SYSTEM = 28,
+        //29
+        //30
+        //31
+        //32
+        //33
+        //34
+        //35
+        //36
+        //37
+        //38
+        CHAT_MSG_BG_EVENT_NEUTRAL = 35,
+        CHAT_MSG_BG_EVENT_ALLIANCE = 36,
+        CHAT_MSG_BG_EVENT_HORDE = 37,
+        CHAT_MSG_COMBAT_FACTION_CHANGE = 38,
+        CHAT_MSG_RAID_LEADER = 39,
+        CHAT_MSG_RAID_WARNING = 40,
+        CHAT_MSG_RAID_WARNING_WIDESCREEN = 41,
+        //42
+        CHAT_MSG_FILTERED = 43,
+        CHAT_MSG_BATTLEGROUND = 44,
+        CHAT_MSG_BATTLEGROUND_LEADER = 45,
+        CHAT_MSG_RESTRICTED = 46,
     };
 
     public delegate void ChatCB(ChatQueue que, string Username);
@@ -58,7 +82,7 @@ namespace BoogieBot.Common
 
     };
 
-    // Where is Undead Gutterspeak ? 4 or 5? Also PLEASE make sure NUM_LANGUAGES is correctly updated as it is used.
+    // Also PLEASE make sure NUM_LANGUAGES is correctly updated as it is used.
     public enum Languages
     {
         LANG_UNIVERSAL = 0x00,
@@ -74,7 +98,9 @@ namespace BoogieBot.Common
         LANG_KALIMAG = 0x0C,
         LANG_GNOMISH = 0x0D,
         LANG_TROLL = 0x0E,
-        NUM_LANGUAGES = 0x0E
+        LANG_GUTTERSPEAK = 0x21,
+        LANG_DRAENEI = 0x23,
+        NUM_LANGUAGES = 0x24
     };
 
     partial class WorldServerClient
@@ -88,7 +114,6 @@ namespace BoogieBot.Common
             string channel = null;
             UInt64 guid = 0;
             WoWGuid fguid = null, fguid2 = null;
-            UInt32 pvp_rank = 0;
 
 
             byte Type = wr.ReadByte();

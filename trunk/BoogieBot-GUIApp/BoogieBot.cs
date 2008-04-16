@@ -214,22 +214,14 @@ namespace BoogieBot.GUIApp
 
         private void tileCount_MenuItem_Click(object sender, EventArgs e)
         {
-            int count = BoogieCore.terrainManager.DEBUG_TileCount();
-            BoogieCore.Log(LogType.System, "TerrainManager: {0} objects stored in the world.", count);
         }
 
         private void WaterHeight_MenuItem_Click(object sender, EventArgs e)
         {
-            Coordinate player = BoogieCore.world.getPlayerObject().coord;
-            float h = BoogieCore.terrainManager.getWaterHeight(player.X, player.Y);
-            BoogieCore.Log(LogType.System, "TerrainManager: Got water height of: {0} near players coordinates: {1}", h, player.ToString());
         }
 
         private void Ztest_MenuItem_Click(object sender, EventArgs e)
         {
-            Coordinate player = BoogieCore.world.getPlayerObject().coord;
-            Coordinate height = BoogieCore.terrainManager.getZ(player);
-            BoogieCore.Log(LogType.System, "TerrainManager: Got Z height of: {0} at players coordinates: {1}", height.Z, player.ToString());
         }
 
         private void objectCount_MenuItem_Click(object sender, EventArgs e)

@@ -186,6 +186,7 @@ namespace Foole.WoW
             return (a.GetOldGuid() == b.GetOldGuid());
         }
 
+
         public static Boolean operator !=(WoWGuid a, WoWGuid b)
         {
             return (a.GetOldGuid() != b.GetOldGuid());

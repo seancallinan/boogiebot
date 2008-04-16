@@ -19,10 +19,6 @@ namespace BoogieBot.Common
         // Objects accessible to anyone
         public static IniReader configFile;            // For reading the bots .ini file
         public static World world;                     // For accessing and modifying World Objects, including the player
-        public static MPQManager mpqManager;           // For reading WoW's MPQ Files
-        public static TerrainManager terrainManager;   // For accessing any terrain (maptile) data
-        public static WMOManager wmoManager;           // For accessing any wmo data
-        public static DoodadManager doodadManager;     // For accessing any doodad .m2 data
         public static AreaTable areaTable;             // For accessing areatable.dbc
         public static MapTable mapTable;               // For accessing map.dbc
         public static CallBackLog Log;                 // For sending logtext to the UI
@@ -86,15 +82,12 @@ namespace BoogieBot.Common
                 wowVersion = BoogieCore.getWoWVersion();
                 Log(LogType.System, "> WoW Version: World of Warcraft {0}.{1}.{2}.{3} ({4}) Found!  Emulating this version.", wowVersion.major, wowVersion.minor, wowVersion.update, wowVersion.build, BoogieCore.WowTypeString);
 
-                // Construct some objects :)
-                mpqManager = new MPQManager(wowPath);
+
                 world = new World();
                 player = new Player();
-                /*terrainManager = new TerrainManager();  // -- I might move this to World
-                wmoManager = new WMOManager();          // -- And this
-                doodadManager = new DoodadManager();    // -- And this too!
-                areaTable = new AreaTable();
-                mapTable = new MapTable();*/
+
+                //areaTable = new AreaTable();
+                //mapTable = new MapTable();
             }
             catch (Exception ex)
             {
