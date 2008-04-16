@@ -129,14 +129,15 @@ namespace BoogieBot.Common
         }
         public void StartMoveForward()
         {
-            SetMoveFlag(MovementFlags.MOVEFLAG_MOVE_FORWARD);
-            BuildMovePacket(OpCode.MSG_MOVE_START_FORWARD, BoogieCore.world.getPlayerObject().GetCoordinates());
+            SetMoveFlag(MovementFlags.MOVEFLAG_TURN_LEFT);
+            BuildMovePacket(OpCode.MSG_MOVE_START_TURN_LEFT, BoogieCore.World.getPlayerObject().GetCoordinates());
         }
 
         public void StopMoveForward()
         {
-            UnSetMoveFlag(MovementFlags.MOVEFLAG_MOVE_STOP);
-            BuildMovePacket(OpCode.MSG_MOVE_STOP, BoogieCore.world.getPlayerObject().GetCoordinates());
+            //UnSetMoveFlag(MovementFlags.MOVEFLAG_MOVE_STOP);
+            MoveFlags = 0;
+            BuildMovePacket(OpCode.MSG_MOVE_STOP_TURN, BoogieCore.World.getPlayerObject().GetCoordinates());
         }
 
         public void MoveJump()
@@ -145,26 +146,14 @@ namespace BoogieBot.Common
         }
         private  void BuildMovePacket(OpCode op, Coordinate c)
         {
-            WoWWriter ww = new WoWWriter(op);
-            ww.Write(MoveFlags);
-            ww.Write((byte)0);
-            ww.Write((UInt32)MM_GetTime());
-
-            ww.Write(c.X);
-            ww.Write(c.Y);
-            ww.Write(c.Z);
-            ww.Write(c.O);
-
-            ww.Write((UInt32)0);
-
-            Send(ww.ToArray());
+            BuildMovePacket(op, c.X, c.Y, c.Z, c.O);
         }
 
         private void BuildMovePacket(OpCode op, float x, float y, float z, float o)
         {
             WoWWriter ww = new WoWWriter(op);
-            ww.Write((UInt32)0);
-            ww.Write((byte)0);
+            ww.Write((UInt32)MoveFlags);
+            ww.Write((byte)255);
             ww.Write((UInt32)MM_GetTime());
 
             ww.Write(x);
@@ -172,7 +161,6 @@ namespace BoogieBot.Common
             ww.Write(z);
             ww.Write(o);
 
-            ww.Write((UInt32)0);
             ww.Write((UInt32)0);
 
             Send(ww.ToArray());
@@ -187,12 +175,14 @@ namespace BoogieBot.Common
                 return;
 
             guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
+            BoogieCore.Log(LogType.Error, "Got movement opcode for {0} with the length {1}", guid, wr.Remaining);
 
             MovementInfo mi = new MovementInfo(wr);
+            BoogieCore.Log(LogType.Error, "Updating coordinates for object {0}, x={1} y={2} z={3}", guid, mi.x, mi.y, mi.z);
 
             if (BoogieCore.world.getObject(guid) != null)
             {
-                BoogieCore.Log(LogType.Error, "Updating coordinates for object {0}, x={1} y={2} z={3}", BoogieCore.world.getObject(guid).Name, mi.x, mi.y, mi.z);
+                //BoogieCore.Log(LogType.Error, "Updating coordinates for object {0}, x={1} y={2} z={3}", BoogieCore.world.getObject(guid).Name, mi.x, mi.y, mi.z);
                 BoogieCore.world.getObject(guid).SetCoordinates(mi.GetCoordinates());
             }
         }
