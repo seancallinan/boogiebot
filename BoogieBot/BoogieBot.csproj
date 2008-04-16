@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0F03561B-2783-435D-8283-0D6C960449C8}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -48,10 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoogieCore.cs" />
-    <Compile Include="Base\WMOAreaTable.cs" />
-    <Compile Include="Base\WMOGroupFile.cs" />
-    <Compile Include="Base\WMORootFile.cs" />
-    <Compile Include="Base\WMO.cs" />
     <Compile Include="Player\ActionBars.cs" />
     <Compile Include="Player\Bank.cs" />
     <Compile Include="Player\Buffs.cs" />
@@ -69,20 +65,12 @@
     <Compile Include="WorldServerClient.Misc.cs" />
     <Compile Include="WorldServerClient.Movement.cs" />
     <Compile Include="WorldServerClient.Object.cs" />
-    <Compile Include="Base\ADTFile.cs" />
     <Compile Include="Base\AreaTable.cs" />
     <Compile Include="Base\BlizChunkHeader.cs" />
     <Compile Include="Base\Coordinate.cs" />
     <Compile Include="Base\DBCFile.cs" />
-    <Compile Include="Base\DoodadManager.cs" />
-    <Compile Include="Base\GliderProfile.cs" />
     <Compile Include="Base\MapTable.cs" />
-    <Compile Include="Base\MapTile.cs" />
-    <Compile Include="Base\MPQManager.cs" />
-    <Compile Include="Base\TerrainManager.cs" />
     <Compile Include="Base\Vect3D.cs" />
-    <Compile Include="Base\WMOFile.cs" />
-    <Compile Include="Base\WMOManager.cs" />
     <Compile Include="Base\World.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

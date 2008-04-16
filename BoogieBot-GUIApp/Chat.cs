@@ -225,5 +225,10 @@ namespace BoogieBot.GUIApp
                 }
             }
         }
+
+        private void input_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

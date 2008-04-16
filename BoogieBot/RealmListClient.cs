@@ -18,13 +18,23 @@ namespace BoogieBot.Common
         private WoWReader win;
         private WoWWriter wout;
 
+
+
+        public RealmListClient(string Username, string Password)
+        {
+            mUsername = Username;
+            mPassword = Password;
+
+            if (mUsername.Length < 3 || mPassword.Length < 3)
+            {
+                BoogieCore.Log(LogType.Error, "Invalid user/pass given ({0} - {1}). Please correct in boogiebot.ini", mUsername, mPassword);
+                mSocket.Disconnect(false);
+                return;
+            }
+        }
+
         public RealmListClient()
         {
-            // Get our IP address (TODO: Broken, re-write)
-            //IPHostEntry ipEntry = Dns.GetHostEntry(Dns.GetHostName ());
-            //int i = 0;
-            //foreach (string digit in (((ipEntry.AddressList).ToString()).Split(".".ToCharArray())))
-            //    mIP[i++] = (Encoding.Default.GetBytes(digit))[0];
 
             mUsername = BoogieCore.configFile.ReadString("Connection", "User").ToUpper();
             mPassword = BoogieCore.configFile.ReadString("Connection", "Pass").ToUpper();
@@ -36,6 +46,8 @@ namespace BoogieBot.Common
                 return;
             }
         }
+
+
 
         public bool Connect(IPEndPoint ep)
         {
@@ -145,7 +157,9 @@ namespace BoogieBot.Common
                         BoogieCore.Log(LogType.System, "Defaulting to realm {0}", defaultRealm);
 
                         string[] address = r.Address.Split(':');
-                        IPAddress WSAddr = Dns.GetHostEntry(address[0]).AddressList[0];
+                        BoogieCore.Log(LogType.System, "Defaulting to realm {0} IP: {1} port: {2}", defaultRealm, address[0], address[1]);
+                        IPAddress WSAddr = IPAddress.Parse(address[0]);//Dns.GetHostEntry(address[0]).AddressList[0];
+                        BoogieCore.Log(LogType.System, "IP: {0}", WSAddr.ToString());
                         int WSPort = Int32.Parse(address[1]);
                         BoogieCore.ConnectToWorldServer(new IPEndPoint(WSAddr, WSPort));
 

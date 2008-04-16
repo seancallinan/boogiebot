@@ -221,6 +221,7 @@ namespace BoogieBot.Common
             M2 = win.ReadBytes(20);
             int unknown = win.ReadInt32();
             UInt16 unk2 = win.ReadUInt16();
+            win.ReadUInt32();
 
             return true;
         }

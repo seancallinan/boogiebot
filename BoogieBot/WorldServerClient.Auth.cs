@@ -217,6 +217,7 @@ namespace BoogieBot.Common
                 {
                     equip[x].EntryID = wr.ReadUInt32();
                     equip[x].Type = wr.ReadByte();
+                    wr.ReadUInt32(); // enchant (2.4 patch)
                 }
 
                 characterList[i].Equipment = equip;
@@ -234,6 +235,34 @@ namespace BoogieBot.Common
                         return;
                     }
 
+            if (count < 1)
+            {
+                string name = RandomString(6, false);
+                BoogieCore.Log(LogType.System, "Auto-Generating Human Character with the name {0}", name);
+
+                WoWWriter ww = new WoWWriter(OpCode.CMSG_CHAR_CREATE);
+                ww.Write(name);
+                ww.Write((byte)1); // race - human
+                ww.Write((byte)1); // class - warrior
+                ww.Write((byte)0); // gender - male
+                ww.Write((byte)1); // skin
+                ww.Write((byte)1); // face
+                ww.Write((byte)1); // hair style
+                ww.Write((byte)1); // hair color
+                ww.Write((byte)1); // facial hair
+                ww.Write((byte)1); // outfit id
+                Send(ww.ToArray());
+                ww = new WoWWriter(OpCode.CMSG_CHAR_ENUM);
+                Send(ww.ToArray());
+                return;
+            }
+
+            if (count == 1)
+            {
+                BoogieCore.Log(LogType.System, "Defaulting to Character {0}", characterList[0].Name);
+                BoogieCore.WorldServerClient.LoginChar(characterList[0].GUID);
+                return;
+            }
             Event e = new Event(EventType.EVENT_CHAR_LIST, Time.GetTime(), characterList);
             BoogieCore.Event(e);
         }
