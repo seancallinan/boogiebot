@@ -1,4 +1,4 @@
-//#define LOG
+#define LOG
 
 using System;
 using System.Collections;
@@ -201,7 +201,7 @@ namespace BoogieBot.Common
             Send(ww.ToArray());
         }
 
-//#region  Socket Functions
+#region  Socket Functions
 
         /// <summary>
         /// Reads bytes from the WoW Server.
@@ -323,7 +323,7 @@ namespace BoogieBot.Common
             mSocket.Close();
         }
 
-//#endregion
+#endregion
 
         private void SMSG_Debug(WoWReader wr)
         {
