@@ -263,8 +263,8 @@ namespace BoogieBot.Common
                 BoogieCore.WorldServerClient.LoginChar(characterList[0].GUID);
                 return;
             }
-            Event e = new Event(EventType.EVENT_CHAR_LIST, Time.GetTime(), characterList);
-            BoogieCore.Event(e);
+
+            BoogieCore.Event(new Event(EventType.EVENT_CHAR_LIST, Time.GetTime(), characterList));
         }
 
         public void WorldZone(UInt64 guid)

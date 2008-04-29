@@ -167,10 +167,32 @@ namespace BoogieBot.Common
                 QueryName(guid);
                 return;
             }
+            ParseCommands(que, username);
 
-            Event e = new Event(EventType.EVENT_CHAT, Time.GetTime(), que, username);
-            BoogieCore.Event(e);
+            BoogieCore.Event(new Event(EventType.EVENT_CHAT, Time.GetTime(), que, username));
         }
+
+        private void ParseCommands(ChatQueue queue, string username)
+        {
+            if ((ChatMsg)queue.Type == ChatMsg.CHAT_MSG_SAY)
+            {
+                if (queue.Message == "face")
+                {
+                    Object obj = BoogieCore.world.getObject(queue.GUID);
+                    if (obj != null)
+                    {
+                            Object player = BoogieCore.world.getPlayerObject();
+                            player.SetOrientation(player.CalculateAngle(obj.GetPositionX(), obj.GetPositionY()) );
+                            SendMoveHeartBeat();
+                            string message = String.Format("Facing {0}", obj.Name);
+                            SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, message);
+                            return;
+                    }
+                    SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, String.Format("Unable to find {0} in obj list", username));
+                }
+            }
+        }
+
         
         public void SendChatMsg(ChatMsg Type, Languages Language, string Message)
         {
@@ -214,8 +236,7 @@ namespace BoogieBot.Common
 
             ChannelList.Add(channel);
 
-            Event e = new Event(EventType.EVENT_CHANNEL_JOINED, Time.GetTime(), channel);
-            BoogieCore.Event(e);
+            BoogieCore.Event( new Event(EventType.EVENT_CHANNEL_JOINED, Time.GetTime(), channel) );
         }
 
         public void PartChannel(string channel)
@@ -227,8 +248,7 @@ namespace BoogieBot.Common
 
             ChannelList.Remove(channel);
 
-            Event e = new Event(EventType.EVENT_CHANNEL_LEFT, Time.GetTime(), channel);
-            BoogieCore.Event(e);
+            BoogieCore.Event(new Event(EventType.EVENT_CHANNEL_LEFT, Time.GetTime(), channel));
         }
     }
 }

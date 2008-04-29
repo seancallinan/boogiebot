@@ -325,6 +325,47 @@ namespace BoogieBot.Common
             coord.O = o;
         }
 
+        public float CalculateAngle(float x1, float y1)
+        {
+            return CalculateAngle(this.coord.X, this.coord.Y, x1, y1);
+        }
+
+        // Credit to ascent - I'm lazy :P
+        public float CalculateAngle( float x1, float y1, float x2, float y2 )
+        {
+	        float dx = x2 - x1;
+	        float dy = y2 - y2;
+	        double angle = 0.0f;
+
+	        // Calculate angle
+	        if (dx == 0.0)
+	        {
+		        if (dy == 0.0)
+			        angle = 0.0;
+		        else if (dy > 0.0)
+			        angle = Math.PI * 0.5;
+		        else
+			        angle = Math.PI * 3.0 * 0.5;
+	        }
+	        else if (dy == 0.0)
+	        {
+		        if (dx > 0.0)
+			        angle = 0.0;
+		        else
+			        angle = Math.PI;
+	        }
+	        else
+	        {
+		        if (dx < 0.0)
+			        angle = Math.Atan(dy / dx) + Math.PI;
+		        else if (dy < 0.0)
+			        angle = Math.Atan(dy / dx) + (2 * Math.PI);
+		        else
+			        angle = Math.Atan(dy / dx);
+	        }
+
+	        return (float)angle;
+        }
 
         public override string ToString()
         {
