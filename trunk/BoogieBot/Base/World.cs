@@ -334,7 +334,7 @@ namespace BoogieBot.Common
         public float CalculateAngle( float x1, float y1, float x2, float y2 )
         {
 	        float dx = x2 - x1;
-	        float dy = y2 - y2;
+	        float dy = y2 - y1;
 	        double angle = 0.0f;
 
 	        // Calculate angle
