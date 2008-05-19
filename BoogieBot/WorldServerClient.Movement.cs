@@ -129,6 +129,10 @@ namespace BoogieBot.Common
         {
             MoveFlags &= ~(ulong)flag;
         }
+        private bool IsMoveFlagSet(MovementFlags flag)
+        {
+            return ((MoveFlags & (ulong)flag) >= 1) ? true : false;
+        }
         public void StartMoveForward()
         {
             SetMoveFlag(MovementFlags.MOVEFLAG_MOVE_FORWARD);
@@ -138,8 +142,8 @@ namespace BoogieBot.Common
         public void StopMoveForward()
         {
             SetMoveFlag(MovementFlags.MOVEFLAG_MOVE_STOP);
-            MoveFlags = 0;
             BuildMovePacket(OpCode.MSG_MOVE_STOP, BoogieCore.World.getPlayerObject().GetCoordinates());
+            MoveFlags = 0;
         }
 
         public void MoveJump()
@@ -192,6 +196,9 @@ namespace BoogieBot.Common
 
         public void UpdatePosition(UInt32 diff)
         {
+            if (MoveFlags == 0)
+                return; // no need to predict coordinates if we aint movin', yo
+
             BoogieCore.Log(LogType.System, "UpdatePos diff: {0}", diff);
             float predictedDX = 0;
             float predictedDY = 0;
@@ -202,7 +209,7 @@ namespace BoogieBot.Common
             // update predicted location
             double h; double speed;
             h = BoogieCore.world.getPlayerObject().GetOrientation();
-            speed = BoogieCore.world.getPlayerObject().runSpeed;
+            speed = 7.0;//BoogieCore.world.getPlayerObject().runSpeed;
 
             float dt = (float)diff / 1000f;
             float dx = (float)Math.Cos(h) * (float)speed * dt;
@@ -222,11 +229,13 @@ namespace BoogieBot.Common
             float realDist = (float)Math.Sqrt(realDX * realDX + realDY * realDY);
 
             BoogieCore.Log(LogType.System, "predict dist: {0} real dist: {1}", predictDist, realDist);
+            if (predictDist > 0.0)
+            {
+                Coordinate expected = new Coordinate(loc.X + predictedDX, loc.Y + predictedDY, BoogieCore.world.getPlayerObject().GetPositionZ(), BoogieCore.world.getPlayerObject().GetOrientation());
 
-            Coordinate expected = new Coordinate(loc.X + predictedDX, loc.Y + predictedDY, BoogieCore.world.getPlayerObject().GetPositionZ(), BoogieCore.world.getPlayerObject().GetOrientation());
-
-            BoogieCore.Log(LogType.System, "new loc x {0}, y {1}, z {2}", expected.X, expected.Y, expected.Z);
-            BoogieCore.world.getPlayerObject().SetCoordinates(expected);
+                BoogieCore.Log(LogType.System, "new loc x {0}, y {1}, z {2}", expected.X, expected.Y, expected.Z);
+                BoogieCore.world.getPlayerObject().SetCoordinates(expected);
+            }
 
             oldLocation = loc;
         }

@@ -160,7 +160,7 @@ namespace BoogieBot.GUIApp
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 24);
             this.button1.TabIndex = 15;
-            this.button1.Text = "button1";
+            this.button1.Text = "Start Forward";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -170,7 +170,7 @@ namespace BoogieBot.GUIApp
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(77, 20);
             this.button2.TabIndex = 16;
-            this.button2.Text = "button2";
+            this.button2.Text = "Stop Move";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -180,7 +180,7 @@ namespace BoogieBot.GUIApp
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(65, 22);
             this.button3.TabIndex = 17;
-            this.button3.Text = "button3";
+            this.button3.Text = "Jump";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 

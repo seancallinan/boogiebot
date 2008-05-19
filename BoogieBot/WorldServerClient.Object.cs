@@ -463,7 +463,7 @@ namespace BoogieBot.Common
                                 NewObj.turnRate = turnRate;
 
                                 BoogieCore.world.newObject(NewObj, false);
-                                MoveUpdateTimer.Enabled = true;
+                                //MoveUpdateTimer.Enabled = true;
 
                                 if (objTypeId == 4)
                                 {
