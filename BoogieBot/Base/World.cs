@@ -55,7 +55,9 @@ namespace BoogieBot.Common
             // If this is the player object being added, set up the Player Class.
             if(!BoogieCore.Player.Inited)
                 if (o.GUID.GetOldGuid() == BoogieCore.Player.Character.GUID)
+                {
                     BoogieCore.Player.setPlayer(o);
+                }
         }
 
         /// <summary>Removes an Object from the World.</summary>
@@ -274,6 +276,8 @@ namespace BoogieBot.Common
         public UInt32 Gender;
         public UInt32 Level;
         public UInt32[] Fields;
+
+        public float walkSpeed, runSpeed, backWalkSpeed, swimSpeed, backSwimSpeed, turnRate;
 
         public void SetCoordinates(Coordinate l)
         {

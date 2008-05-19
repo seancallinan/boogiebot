@@ -16,6 +16,8 @@ namespace BoogieBot.Common
     // Movement Packet Handling
     partial class WorldServerClient
     {
+        private Coordinate oldLocation = null;
+
         public enum MovementFlags : ulong
         {
 	        // Byte 1 (Resets on Movement Key Press)
@@ -70,7 +72,7 @@ namespace BoogieBot.Common
 	        MOVEFLAG_PENDING_MOVE_MASK			= 0x180000,
 	        MOVEFLAG_FULL_FALLING_MASK			= 0xE000,
         };
-        public enum MoveState { StartRun, Run, StartWalk, Walk, StartStrafeL, StartStrafeR, StrafeR, StrafeL, StopRun, StopWalk, StopStrafe };
+        
 
         public UInt16 MoveMask = 0;
         private ulong MoveFlags = 0;
@@ -129,15 +131,15 @@ namespace BoogieBot.Common
         }
         public void StartMoveForward()
         {
-            SetMoveFlag(MovementFlags.MOVEFLAG_TURN_LEFT);
-            BuildMovePacket(OpCode.MSG_MOVE_START_TURN_LEFT, BoogieCore.World.getPlayerObject().GetCoordinates());
+            SetMoveFlag(MovementFlags.MOVEFLAG_MOVE_FORWARD);
+            BuildMovePacket(OpCode.MSG_MOVE_START_FORWARD, BoogieCore.World.getPlayerObject().GetCoordinates());
         }
 
         public void StopMoveForward()
         {
-            //UnSetMoveFlag(MovementFlags.MOVEFLAG_MOVE_STOP);
+            SetMoveFlag(MovementFlags.MOVEFLAG_MOVE_STOP);
             MoveFlags = 0;
-            BuildMovePacket(OpCode.MSG_MOVE_STOP_TURN, BoogieCore.World.getPlayerObject().GetCoordinates());
+            BuildMovePacket(OpCode.MSG_MOVE_STOP, BoogieCore.World.getPlayerObject().GetCoordinates());
         }
 
         public void MoveJump()
@@ -185,6 +187,48 @@ namespace BoogieBot.Common
                 //BoogieCore.Log(LogType.Error, "Updating coordinates for object {0}, x={1} y={2} z={3}", BoogieCore.world.getObject(guid).Name, mi.x, mi.y, mi.z);
                 BoogieCore.world.getObject(guid).SetCoordinates(mi.GetCoordinates());
             }
+        }
+
+
+        public void UpdatePosition(UInt32 diff)
+        {
+            BoogieCore.Log(LogType.System, "UpdatePos diff: {0}", diff);
+            float predictedDX = 0;
+            float predictedDY = 0;
+
+            if (oldLocation == null)
+                oldLocation = BoogieCore.world.getPlayerObject().GetCoordinates();
+
+            // update predicted location
+            double h; double speed;
+            h = BoogieCore.world.getPlayerObject().GetOrientation();
+            speed = BoogieCore.world.getPlayerObject().runSpeed;
+
+            float dt = (float)diff / 1000f;
+            float dx = (float)Math.Cos(h) * (float)speed * dt;
+            float dy = (float)Math.Sin(h) * (float)speed * dt;
+
+            BoogieCore.Log(LogType.System, "speed: {0} dt: {1} dx: {2} dy : {3}", speed, dt, dx, dy);
+
+            predictedDX = dx;
+            predictedDY = dy;
+
+            Coordinate loc = BoogieCore.world.getPlayerObject().GetCoordinates();
+            float realDX = loc.X - oldLocation.X;
+            float realDY = loc.Y - oldLocation.Y;
+            BoogieCore.Log(LogType.System, " dx: " + predictedDX + " dy : " + predictedDY + " Real dx: " + realDX + " dy : " + realDY);
+
+            float predictDist = (float)Math.Sqrt(predictedDX * predictedDX + predictedDY * predictedDY);
+            float realDist = (float)Math.Sqrt(realDX * realDX + realDY * realDY);
+
+            BoogieCore.Log(LogType.System, "predict dist: {0} real dist: {1}", predictDist, realDist);
+
+            Coordinate expected = new Coordinate(loc.X + predictedDX, loc.Y + predictedDY, BoogieCore.world.getPlayerObject().GetPositionZ(), BoogieCore.world.getPlayerObject().GetOrientation());
+
+            BoogieCore.Log(LogType.System, "new loc x {0}, y {1}, z {2}", expected.X, expected.Y, expected.Z);
+            BoogieCore.world.getPlayerObject().SetCoordinates(expected);
+
+            oldLocation = loc;
         }
     }
 
@@ -249,5 +293,11 @@ namespace BoogieBot.Common
             if (wr.Remaining >= 4) unklast = wr.ReadUInt32();
 
         }
+
+
+
+    
     }
+
+
 }

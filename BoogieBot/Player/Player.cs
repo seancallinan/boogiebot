@@ -50,6 +50,7 @@ namespace BoogieBot.Common
         // Initialize Player, with Player Object Update Fields :D
         public void setPlayer(Object po)
         {
+            
             obj = po;
             BoogieCore.Log(LogType.System, "Player Class Initialized!");
 

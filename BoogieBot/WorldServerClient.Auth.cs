@@ -175,7 +175,7 @@ namespace BoogieBot.Common
 
             WoWWriter ww = new WoWWriter(OpCode.CMSG_CHAR_ENUM);
             Send(ww.ToArray());
-            aTimer.Enabled = true;
+            PingTimer.Enabled = true;
 
         }
 
@@ -316,6 +316,8 @@ namespace BoogieBot.Common
             ww = new WoWWriter(OpCode.CMSG_SET_ACTIVE_MOVER);
             ww.Write(guid);
             Send(ww.ToArray());
+            //MoveUpdateTimer.Enabled = true;
+
         }
     }
 }
