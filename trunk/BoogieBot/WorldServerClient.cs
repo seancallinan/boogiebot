@@ -80,7 +80,30 @@ namespace BoogieBot.Common
         float _cellSize = (TileSize / CellsPerTile);
 
         #endregion
+        public class UpdateThread 
+        {
+            UInt32 TimeNow = MM_GetTime();
+            UInt32 LastUpdateTime = MM_GetTime();
 
+
+            public void Start()
+            {
+                while (true)
+                {
+                    Thread.Sleep(350);
+                    if (BoogieCore.WorldServerClient == null)
+                        continue;
+
+                    TimeNow = MM_GetTime();
+                    BoogieCore.WorldServerClient.UpdatePosition(TimeNow - LastUpdateTime);
+                    LastUpdateTime = MM_GetTime();
+                    if (BoogieCore.world.getPlayerObject() != null)
+                        if (BoogieCore.world.getPlayerObject().GetCoordinates() != null)
+                            BoogieCore.WorldServerClient.SendMoveHeartBeat();
+                }
+
+            }
+        }
         public WorldServerClient(IPEndPoint ep, string username, byte[] key)
         {
             isRunning = false;
@@ -116,6 +139,12 @@ namespace BoogieBot.Common
 
         private void Start()
         {
+            UpdateThread Updater = new UpdateThread();
+
+            Thread UpdateThread = new Thread(new ThreadStart(Updater.Start));
+            UpdateThread.IsBackground = true;
+            UpdateThread.Start();
+
             // Setup ping timer/initial values
             PingTimer.Elapsed += new ElapsedEventHandler(Ping);
             PingTimer.Interval = 10000;
@@ -136,6 +165,7 @@ namespace BoogieBot.Common
             Loop();
 
             // Thread is dead if it gets to this point
+            UpdateThread.Abort();
 
         }
 
@@ -175,8 +205,8 @@ namespace BoogieBot.Common
 
         private void Update(UInt32 diff)
         {
-            if (MoveUpdateTimer.Enabled == true)
-                UpdatePosition(diff);
+            //if (MoveUpdateTimer.Enabled == true)
+            //    UpdatePosition(diff);
 
         }
 

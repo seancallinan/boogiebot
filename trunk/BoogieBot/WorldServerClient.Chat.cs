@@ -190,6 +190,18 @@ namespace BoogieBot.Common
                     }
                     SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, String.Format("Unable to find {0} in obj list", username));
                 }
+                if (queue.Message == "run")
+                {
+                    StartMoveForward();
+                    SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, "Running...");
+
+                }
+                if (queue.Message == "stop")
+                {
+                    StopMoveForward();
+                    SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, "stopping...");
+                }
+
             }
         }
 
