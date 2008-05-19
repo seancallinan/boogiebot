@@ -130,7 +130,7 @@ namespace BoogieBot.Common
 #endif
                                 if ((flags2 & 0x02000000) >= 1)	// player being transported
                                 {
-                                    #if (DEBUG)
+#if (DEBUG)
                                     BoogieCore.Log(LogType.NeworkComms, "(flags2 & 0x02000000)");
 #endif
                                     wr.ReadUInt32();	//guidlow
@@ -279,7 +279,7 @@ namespace BoogieBot.Common
                             float posY = 0;
                             float posZ = 0;
                             float facing = 0;
-                            float walkSpeed, runSpeed, backWalkSpeed, swimSpeed, backSwimSpeed, turnRate = 0;
+                            float walkSpeed = 0, runSpeed = 0, backWalkSpeed = 0, swimSpeed = 0, backSwimSpeed = 0, turnRate = 0;
 
                             byte flags = wr.ReadByte();
 
@@ -445,6 +445,8 @@ namespace BoogieBot.Common
                                     Fields[x] = wr.ReadUInt32();
                             }
 
+
+
                             if (!BoogieCore.world.objectExists(guid))   // Add new Object
                             {
                                 UInt32 entryid = Fields[(int)UpdateFields.OBJECT_FIELD_ENTRY];
@@ -453,10 +455,15 @@ namespace BoogieBot.Common
                                 NewObj.coord = new Coordinate(posX, posY, posZ, facing);
                                 NewObj.Type = flags;
                                 NewObj.Fields = Fields;
-
-                                //GetTile(posX, posY);  // This does nothing?
+                                NewObj.walkSpeed = walkSpeed;
+                                NewObj.runSpeed = runSpeed;
+                                NewObj.backWalkSpeed = backWalkSpeed;
+                                NewObj.swimSpeed = swimSpeed;
+                                NewObj.backSwimSpeed = backSwimSpeed;
+                                NewObj.turnRate = turnRate;
 
                                 BoogieCore.world.newObject(NewObj, false);
+                                MoveUpdateTimer.Enabled = true;
 
                                 if (objTypeId == 4)
                                 {

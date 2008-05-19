@@ -42,8 +42,8 @@ namespace BoogieBot.Common
         private UInt32 ClientSeed;
         private Random random = new Random();
         private Socket mSocket;
-        System.Timers.Timer aTimer = new System.Timers.Timer();
-        System.Timers.Timer uTimer = new System.Timers.Timer();
+        System.Timers.Timer PingTimer = new System.Timers.Timer();
+        System.Timers.Timer MoveUpdateTimer = new System.Timers.Timer();
 
         // Ping stuffs
         private UInt32 Ping_Seq;
@@ -117,12 +117,19 @@ namespace BoogieBot.Common
         private void Start()
         {
             // Setup ping timer/initial values
-            aTimer.Elapsed += new ElapsedEventHandler(Ping);
-            aTimer.Interval = 10000;
-            aTimer.Enabled = false;
+            PingTimer.Elapsed += new ElapsedEventHandler(Ping);
+            PingTimer.Interval = 10000;
+            PingTimer.Enabled = false;
 
             Ping_Seq = 1;
             Latency = 1;
+
+            // Setup heartbeat timer for updating movement
+
+            MoveUpdateTimer.Elapsed += new ElapsedEventHandler(MoveHeartBeat);
+            MoveUpdateTimer.Interval = 500;
+            MoveUpdateTimer.Enabled = false;
+
 
             // Loopdeloop
 
@@ -168,7 +175,8 @@ namespace BoogieBot.Common
 
         private void Update(UInt32 diff)
         {
-            
+            if (MoveUpdateTimer.Enabled == true)
+                UpdatePosition(diff);
 
         }
 
@@ -183,18 +191,31 @@ namespace BoogieBot.Common
                 WorldThread.Join();
         }
 
+        private void MoveHeartBeat(object source, ElapsedEventArgs e)
+        {
+            if (!mSocket.Connected)
+            {
+                MoveUpdateTimer.Enabled = false;
+                MoveUpdateTimer.Stop();
+                return;
+            }
+            if (BoogieCore.world.getPlayerObject().GetCoordinates() != null)
+                SendMoveHeartBeat();
+
+        }
+
         private void Ping(object source, ElapsedEventArgs e)
         {
             if (!mSocket.Connected)
             {
-                aTimer.Enabled = false;
-                aTimer.Stop();
+                PingTimer.Enabled = false;
+                PingTimer.Stop();
                 return;
             }
 
             Ping_Req_Time = MM_GetTime();
 
-            BoogieCore.Log(LogType.System, "Ping!");
+            BoogieCore.Log(LogType.NeworkComms, "Ping!");
             WoWWriter ww = new WoWWriter(OpCode.CMSG_PING);
             ww.Write(Ping_Seq);
             ww.Write(Latency);
