@@ -102,47 +102,6 @@ namespace BoogieBot.Common
             Log(LogType.System, "BoogieBot.dll Initialized.");
         }
 
-        //// Initialize the Core (WoWChat version) This excludes almost everything... since wowchat doesn't need much :P
-        //public static void InitCoreWoWChat(CallBackLog l, CallBackEvent e)
-        //{
-        //    // Can't run this more than once
-        //    if (inited) return;
-
-        //    // We need to be able to Log stuff
-        //    if (l == null) return;
-        //    if (e == null) return;
-
-        //    Log = l;
-        //    Event = e;
-
-        //    try
-        //    {
-        //        if (!File.Exists(Environment.CurrentDirectory + "/" + BoogieCore.WowChatConfigFileName))
-        //            throw new FileNotFoundException("Configuration file not found.", BoogieCore.WowChatConfigFileName);
-
-        //        configFile = new IniReader(Environment.CurrentDirectory + "/" + BoogieCore.WowChatConfigFileName);
-
-        //        wowPath = BoogieCore.getWowPath();
-        //        Log(LogType.System, "WowPath = {0}", wowPath);
-
-        //        wowVersion = getWoWVersion();
-        //        Log(LogType.System, "World of Warcraft {0}.{1}.{2}.{3} {4} Found! Emulating this version.", wowVersion.major, wowVersion.minor, wowVersion.update, wowVersion.build, BoogieCore.WowTypeString);
-
-        //        world = new World();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Bot Start up Failed. Log why, and rethrow the exception.
-        //        Log(LogType.System, ex.Message);
-        //        Log(LogType.System, ex.StackTrace);
-
-        //        throw ex;
-        //    }
-
-        //    inited = true;
-        //    wowchat = true;
-        //    Log(LogType.System, "WoWChat Initialized.");
-        //}
 
         public static Boolean ConnectToRealmListServer()
         {
