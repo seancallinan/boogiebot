@@ -190,6 +190,19 @@ namespace BoogieBot.Common
                     }
                     SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, String.Format("Unable to find {0} in obj list", username));
                 }
+
+                if (queue.Message == "track")
+                {
+                    Object obj = BoogieCore.world.getObject(queue.GUID);
+                    if (obj != null)
+                    {
+                        TrackObject(obj);
+                        string message = String.Format("Tracking {0}", obj.Name);
+                        SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, message);
+                        return;
+                    }
+                    SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, String.Format("Unable to find {0} in obj list", username));
+                }
                 if (queue.Message == "run")
                 {
                     StartMoveForward();
@@ -198,6 +211,7 @@ namespace BoogieBot.Common
                 }
                 if (queue.Message == "stop")
                 {
+                    StopTrack();
                     StopMoveForward();
                     SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, "stopping...");
                 }

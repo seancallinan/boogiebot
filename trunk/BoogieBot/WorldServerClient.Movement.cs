@@ -77,6 +77,29 @@ namespace BoogieBot.Common
         public UInt16 MoveMask = 0;
         private ulong MoveFlags = 0;
 
+        private Object TrackObj = null;
+
+        public void TrackObject(Object o)
+        {
+            if (o == null)
+                return;
+
+            TrackObj = o;
+        }
+
+        public void StopTrack()
+        {
+            TrackObj = null;
+        }
+
+        public Object GetTrackedObject()
+        {
+            if (TrackObj == null)
+                return null;
+
+            return TrackObj;
+        }
+
         private void TeleportHandler(WoWReader wr)
         {
             float x, y, z, orient;
@@ -196,6 +219,18 @@ namespace BoogieBot.Common
 
         public void UpdatePosition(UInt32 diff)
         {
+
+            if (TrackObj != null)
+            {
+                Object player = BoogieCore.world.getPlayerObject();
+                player.SetOrientation(
+                        player.CalculateAngle(
+                            TrackObj.GetPositionX(), TrackObj.GetPositionY()
+                        )
+                    );
+
+            }
+
             if (MoveFlags == 0)
                 return; // no need to predict coordinates if we aint movin', yo
 
