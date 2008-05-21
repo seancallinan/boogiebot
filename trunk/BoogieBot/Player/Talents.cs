@@ -8,14 +8,14 @@ namespace BoogieBot.Common
 {
     public class Talents
     {
-        byte[] talentTree1;
+        /*byte[] talentTree1;
         byte[] talentTree2;
-        byte[] talentTree3;
+        byte[] talentTree3;*/
 
         public Talents(Object po)
         {
             //fixme
-            //UInt32 numOfTalents = po.Fields[(int)UpdateFields.PLAYER_CHARACTER_POINTS1];
+            UInt32 numOfTalents = po.Fields[(int)UpdateFields.PLAYER_CHARACTER_POINTS1];
             //UInt32 unknown = po.Fields[(int)UpdateFields.PLAYER_CHARACTER_POINTS2];
         }
 

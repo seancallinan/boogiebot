@@ -9,8 +9,8 @@ namespace BoogieBot.Common
     public class DBCFile
     {
         // The parsed table.
-        private byte[][][] data;
-        private byte[] stringTable;
+        private byte[][][] data = null;
+        private byte[] stringTable = null;
         protected WDBC_header wdbc_header = new WDBC_header();
 
         public DBCFile(String filename)

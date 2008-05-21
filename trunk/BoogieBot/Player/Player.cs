@@ -18,9 +18,9 @@ namespace BoogieBot.Common
         private uint nextlevelexp;
 
         private uint hp;
-        private uint mana;
-        private uint energy;
-        private uint rage;
+        private uint mana = 0;
+        private uint energy = 0;
+        private uint rage = 0;
 
         private Boolean inited = false;
 
@@ -55,8 +55,8 @@ namespace BoogieBot.Common
             BoogieCore.Log(LogType.System, "Player Class Initialized!");
 
             level           = po.Fields[(int)UpdateFields.UNIT_FIELD_LEVEL];
-            //exp             = po.Fields[(int)UpdateFields.PLAYER_XP];
-            //nextlevelexp    = po.Fields[(int)UpdateFields.PLAYER_NEXT_LEVEL_XP];
+            exp             = po.Fields[(int)UpdateFields.PLAYER_XP];
+            nextlevelexp    = po.Fields[(int)UpdateFields.PLAYER_NEXT_LEVEL_XP];
             hp              = po.Fields[(int)UpdateFields.UNIT_FIELD_HEALTH];       // probably wrong?
 
             // Create contained Objects
@@ -140,6 +140,9 @@ namespace BoogieBot.Common
         // Properties
         public Boolean      Inited      { get { return inited;      } }
         public Character    Character   { get { return character;   } }
+        public byte Class { get { return character.Class; } }
+        public uint Level { get { return level; } }
+        public uint Health { get { return hp; } }
         public Spells       Spells      { get { return spells;      } }
         public Reputation   Reputation  { get { return reputation;  } }
         public ActionBars   ActionBars  { get { return actionBars;  } }
