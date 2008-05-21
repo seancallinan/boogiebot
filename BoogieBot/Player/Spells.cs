@@ -17,7 +17,10 @@ namespace BoogieBot.Common
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("Spell Class:\n");
+            sb.Append("Spell ID's:");
+            foreach (SpellItem si in spellList)
+                sb.Append(" " + si.spellID);
+            sb.Append("\n");
 
             return sb.ToString();
         }

@@ -6,7 +6,7 @@ namespace BoogieBot.Common
 {
     public class QuestLog
     {
-        private QuestItem[] questItemList;
+        //private QuestItem[] questItemList;
 
         public QuestLog(Object po)
         {

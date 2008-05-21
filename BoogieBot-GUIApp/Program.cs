@@ -29,8 +29,9 @@ namespace BoogieBot.GUIApp
             }
             catch (Exception ex)
             {
-                String error = String.Format("Error: {0}\n\nStackTrace:\n\n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
-                MessageBox.Show(error, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                //if (
+                //String error = String.Format("Error: {0}\n\nStackTrace:\n\n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
+                MessageBox.Show(ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 

@@ -192,6 +192,16 @@ namespace Foole.WoW
             return (a.GetOldGuid() != b.GetOldGuid());
         }
 
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override string ToString()
         {
             return String.Format("GUID = {0}", GetOldGuid().ToString());

@@ -90,7 +90,7 @@ namespace BoogieBot.Common
             {
                 while (true)
                 {
-                    Thread.Sleep(350);
+                    Thread.Sleep(330);
                     if (BoogieCore.WorldServerClient == null)
                         continue;
 
