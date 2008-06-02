@@ -144,15 +144,15 @@ namespace BoogieBot.Common
         {
             BuildMovePacket(OpCode.MSG_MOVE_HEARTBEAT, x, y, z, o);
         }
-        private void SetMoveFlag(MovementFlags flag)
+        public void SetMoveFlag(MovementFlags flag)
         {
             MoveFlags |= (ulong)flag;
         }
-        private void UnSetMoveFlag(MovementFlags flag)
+        public void UnSetMoveFlag(MovementFlags flag)
         {
             MoveFlags &= ~(ulong)flag;
         }
-        private bool IsMoveFlagSet(MovementFlags flag)
+        public bool IsMoveFlagSet(MovementFlags flag)
         {
             return ((MoveFlags & (ulong)flag) >= 1) ? true : false;
         }
@@ -173,7 +173,7 @@ namespace BoogieBot.Common
         {
             BuildMovePacket(OpCode.MSG_MOVE_JUMP, BoogieCore.world.getPlayerObject().GetCoordinates());
         }
-        private  void BuildMovePacket(OpCode op, Coordinate c)
+        public  void BuildMovePacket(OpCode op, Coordinate c)
         {
             BuildMovePacket(op, c.X, c.Y, c.Z, c.O);
         }
@@ -204,10 +204,8 @@ namespace BoogieBot.Common
                 return;
 
             guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
-            BoogieCore.Log(LogType.Error, "Got movement opcode for {0} with the length {1}", guid, wr.Remaining);
 
             MovementInfo mi = new MovementInfo(wr);
-            BoogieCore.Log(LogType.Error, "Updating coordinates for object {0}, x={1} y={2} z={3}", guid, mi.x, mi.y, mi.z);
 
             if (BoogieCore.world.getObject(guid) != null)
             {
@@ -334,7 +332,7 @@ namespace BoogieBot.Common
                 unk12 = wr.ReadUInt32();
             }
 
-            if (wr.Remaining >= 4) unklast = wr.ReadUInt32();
+            //if (wr.Remaining >= 4) unklast = wr.ReadUInt32();
 
         }
 

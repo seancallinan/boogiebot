@@ -10,6 +10,7 @@ using System.Threading;
 using Foole.Crypt;
 using Foole.Utils;
 using Foole.WoW;
+using Pather;
 
 namespace BoogieBot.Common
 {
@@ -142,7 +143,7 @@ namespace BoogieBot.Common
             string username = null;
 
 
-            ChatQueue que = new ChatQueue() ;
+            ChatQueue que = new ChatQueue();
             que.GUID = fguid;
             que.Type = Type;
             que.Language = Language;
@@ -199,6 +200,22 @@ namespace BoogieBot.Common
                         TrackObject(obj);
                         string message = String.Format("Tracking {0}", obj.Name);
                         SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, message);
+                        return;
+                    }
+                    SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, String.Format("Unable to find {0} in obj list", username));
+                }
+                if (queue.Message == "come")
+                {
+                    
+                    
+                    Object obj = BoogieCore.world.getObject(queue.GUID);
+                    if (obj != null)
+                    {
+                        TrackObject(obj);
+                        pather.Approach(obj, false, 20000);
+                        string message = String.Format("Approaching {0}", obj.Name);
+                        SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, message);
+                        
                         return;
                     }
                     SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, String.Format("Unable to find {0} in obj list", username));

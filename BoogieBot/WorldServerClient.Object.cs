@@ -94,7 +94,7 @@ namespace BoogieBot.Common
                                 break;
 
                             guid = new WoWGuid(mask, wr.ReadBytes(WoWGuid.BitCount8(mask)));
-                            #if (DEBUG)
+#if (DEBUG)
                             BoogieCore.Log(LogType.NeworkComms, "Got Movement update for GUID {0}", BitConverter.ToUInt64(guid.GetNewGuid(), 0));
 #endif
                             UInt32 flags2 = 0, unk3;
