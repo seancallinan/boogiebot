@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoogieBot-GUIApp", "BoogieB
 		{0F03561B-2783-435D-8283-0D6C960449C8} = {0F03561B-2783-435D-8283-0D6C960449C8}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPather", "PPather\PPather.csproj", "{FEA6B573-E6EB-45A7-8DEB-EC84410BB9C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40C64478-3A0D-4BC6-B455-9AB1E5976E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEA6B573-E6EB-45A7-8DEB-EC84410BB9C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEA6B573-E6EB-45A7-8DEB-EC84410BB9C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEA6B573-E6EB-45A7-8DEB-EC84410BB9C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEA6B573-E6EB-45A7-8DEB-EC84410BB9C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

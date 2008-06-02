@@ -66,6 +66,7 @@ namespace BoogieBot.Common
         bool SentHello = false;
         UInt32 AHEntry = 0;
 
+        Pather.PPather pather = null;
 
         // TILE stuff
 
@@ -159,6 +160,12 @@ namespace BoogieBot.Common
             MoveUpdateTimer.Interval = 500;
             MoveUpdateTimer.Enabled = false;
 
+            // Fire up pather
+
+            pather = new Pather.PPather();
+
+            pather.OnStartGlide();
+
 
             // Loopdeloop
 
@@ -166,6 +173,10 @@ namespace BoogieBot.Common
 
             // Thread is dead if it gets to this point
             UpdateThread.Abort();
+
+
+            pather.OnStopGlide();
+            pather = null;
 
         }
 

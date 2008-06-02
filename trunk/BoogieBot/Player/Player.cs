@@ -139,10 +139,12 @@ namespace BoogieBot.Common
 
         // Properties
         public Boolean      Inited      { get { return inited;      } }
+        public Coordinate Location      { get { return obj.coord;   } }
+        public float Heading { get { return obj.coord.O; } }
         public Character    Character   { get { return character;   } }
-        public byte Class { get { return character.Class; } }
-        public uint Level { get { return level; } }
-        public uint Health { get { return hp; } }
+        public byte         Class       { get { return character.Class; } }
+        public uint         Level       { get { return level;       } }
+        public uint         Health      { get { return hp;          } }
         public Spells       Spells      { get { return spells;      } }
         public Reputation   Reputation  { get { return reputation;  } }
         public ActionBars   ActionBars  { get { return actionBars;  } }
@@ -153,14 +155,16 @@ namespace BoogieBot.Common
         public Buffs        Buffs       { get { return buffs;       } }
         public Debuffs      Debuffs     { get { return debuffs;     } }
         public QuestLog     QuestLog    { get { return questLog;    } }
-        public bool         IsDead      { get { return false; } } // todo
-        public bool         IsInCombat { get { return false; } } // todo
+        public bool         IsDead      { get { return false;       } } // todo
+        public bool         IsInCombat  { get { return false;       } } // todo
 
 
         public float DistanceTo(Coordinate l)
         {
             return obj.GetCoordinates().DistanceTo(l);
         }
+
+        
 
         public override String ToString()
         {

@@ -26,7 +26,7 @@ namespace BoogieBot.GUIApp
         private void listView1_DoubleClicked(object sender, EventArgs e)
         {
             string[] address = listView1.SelectedItems[0].SubItems[1].Text.Split(':');
-            IPAddress WSAddr = IPAddress.Parse(address[0]);//Dns.GetHostEntry(address[0]).AddressList[0];
+            IPAddress WSAddr = Dns.GetHostEntry(address[0]).AddressList[0];//IPAddress.Parse(address[0]);//Dns.GetHostEntry(address[0]).AddressList[0];
             int WSPort = Int32.Parse(address[1]);
             BoogieCore.ConnectToWorldServer(new IPEndPoint(WSAddr, WSPort));
             this.Dispose();

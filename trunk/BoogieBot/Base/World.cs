@@ -371,6 +371,23 @@ namespace BoogieBot.Common
 	        return (float)angle;
         }
 
+        public bool IsDead
+        {
+            get { return false; }// fixme
+        }
+        public int Reaction
+        {
+            get { return 0; } //fixme
+        }
+        public bool IsValid
+        {
+            get { return true; } // fixme
+        }
+        public Coordinate Location
+        {
+            get { return coord; }
+        }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
