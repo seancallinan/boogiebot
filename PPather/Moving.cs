@@ -9,6 +9,7 @@ using System.Text;
 using Pather;
 using Pather.Graph;
 using BoogieBot.Common;
+using Foole.WoW;
 
 /*
  *  Classes to move the toon around 
@@ -54,12 +55,10 @@ namespace Pather
 
             if (old_runForwards != runForwards)
             {
-                KeyT.Wait();
-                KeyT.Reset();
                 if (runForwards)
-                    PressKey("Common.Forward");
+                    BoogieCore.WorldServerClient.StartMoveForward();
                 else
-                    ReleaseKey("Common.Forward");
+                    BoogieCore.WorldServerClient.StopMoveForward();
                 //Context.Log("Forwards: " + runForwards);
             }
             /*
@@ -196,56 +195,102 @@ namespace Pather
 
         public void StrafeLeft(bool go)
         {
-            strafeLeft = go;
-            if (go) strafeRight = false;
-            PushKeys();
+            if (go)
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_STRAFE_RIGHT);
+                BoogieCore.WorldServerClient.SetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_STRAFE_LEFT);
+                BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_START_STRAFE_LEFT);
+            }
+            else
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_STRAFE_LEFT);
+            }
         }
 
         public void StrafeRight(bool go)
         {
-            strafeRight = go;
-            if (go) strafeLeft = false;
-            PushKeys();
+            if (go)
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_STRAFE_LEFT);
+                BoogieCore.WorldServerClient.SetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_STRAFE_RIGHT);
+                BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_START_STRAFE_RIGHT);
+            }
+            else
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_STRAFE_RIGHT);
+            }
         }
 
         public void RotateLeft(bool go)
         {
-            rotateLeft = go;
-            if (go) rotateRight = false;
-            PushKeys();
+            if (go)
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_RIGHT);
+                BoogieCore.WorldServerClient.SetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_LEFT);
+                BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_START_TURN_LEFT);
+            }
+            else
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_LEFT);
+            }
         }
 
 
         public void RotateRight(bool go)
         {
-            rotateRight = go;
-            if (go) rotateLeft = false;
-            PushKeys();
+            if (go)
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_LEFT);
+                BoogieCore.WorldServerClient.SetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_RIGHT);
+                BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_START_TURN_RIGHT);
+            }
+            else
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_RIGHT);
+            }
         }
 
 
         public void Forwards(bool go)
         {
             if (go)
-                BoogieCore.WorldServerClient.StartMoveForward();
+            {
+                BoogieCore.WorldServerClient.SetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_MOVE_FORWARD);
+                BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_START_FORWARD);
+            }
             else
-                BoogieCore.WorldServerClient.StopMoveForward();
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_MOVE_FORWARD);
+                //BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_STOP);
+            }
         }
 
         public void Backwards(bool go)
         {
-            runBackwards = go;
-            if (go) runForwards = false;
-            PushKeys();
+            if (go)
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_MOVE_FORWARD);
+                BoogieCore.WorldServerClient.SetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_MOVE_BACKWARD);
+                BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_START_BACKWARD);
+            }
+            else
+            {
+                BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_MOVE_BACKWARD);
+                //BoogieCore.WorldServerClient.BuildMovePacket(OpCode.MSG_MOVE_STOP);
+            }
         }
 
         public void StopRotate()
         {
-            BoogieCore.WorldServerClient.StopMoveForward();
+
+            BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_LEFT);
+            BoogieCore.WorldServerClient.UnSetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_TURN_RIGHT);
+            //BoogieCore.WorldServerClient.StopMoveForward();
         }
 
         public void StopMove()
         {
+            BoogieCore.WorldServerClient.SetMoveFlag(WorldServerClient.MovementFlags.MOVEFLAG_MOVE_STOP);
             BoogieCore.WorldServerClient.StopMoveForward();
         }
 
@@ -319,14 +364,13 @@ namespace Pather
 
         public bool moveTowardsFacing(Coordinate to, double distance, Coordinate facing)
         {
-
-
-            //BoogieBot.Common.Object player = BoogieCore.world.getPlayerObject();
-            //player.SetOrientation(player.CalculateAngle(to.X, to.Y));
-            //return true;
             bool moving = false;
-            double d = to.DistanceTo(BoogieCore.world.getPlayerObject().GetCoordinates());
+            Coordinate myLoc = BoogieCore.world.getPlayerObject().GetCoordinates();
+            double d = to.DistanceTo(myLoc);
             BoogieCore.Log(LogType.System, "[Move] D = {0}", d);
+            BoogieCore.Log(LogType.System, "[Move] myLoc = {0}", myLoc);
+            BoogieCore.Log(LogType.System, "[Move] To = {0}", to);
+
             if (d > distance)
             {
                 int dir = GetLocationDirection(to);
@@ -337,7 +381,7 @@ namespace Pather
                 if (dir == 2) StrafeRight(true);
                 if (dir == 3) Backwards(true);
                 if (dir == 4) StrafeLeft(true);
-                BoogieCore.Log(LogType.System, "[MOVE] Get Direction: {0}", dir);
+                BoogieCore.Log(LogType.System, "[Move] Get Direction: {0}", dir);
                 //Context.Log("Move dir: " + dir);
             }
             else
@@ -347,9 +391,10 @@ namespace Pather
                 StrafeRight(false);
                 Forwards(false);
                 Backwards(false);
+                return false;
             }
 
-            /*BoogieCore.Log(LogType.System, "[Move] 1");
+            BoogieCore.Log(LogType.System, "[Move] 1");
             double bearing = BoogieCore.World.getPlayerObject().CalculateAngle(facing.X, facing.Y);
             if (bearing < -PI / 8)
             {
@@ -358,8 +403,9 @@ namespace Pather
             }
             else if (bearing > PI / 8)
             {
+                BoogieCore.Log(LogType.System, "[Move] 3");
                 moving |= true;
-            }*/
+            }
 
             return moving;
         }
@@ -425,7 +471,7 @@ namespace Pather
 
         public bool checkStuck()
         {
-            if (firstStuckCheck)
+            /*if (firstStuckCheck)
             {
                 oldLocation = Me.Location;
                 predictedDX = 0;
@@ -521,7 +567,7 @@ namespace Pather
                 }
 
 
-            }
+            }*/
             return false;
         }
 

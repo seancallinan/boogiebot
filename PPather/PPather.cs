@@ -47,11 +47,13 @@ namespace Pather
 
         public GSpellTimer(Int32 duration, bool bleh)
         {
+            lastCheck = MM_GetTime();
             dur = (uint)duration;
         }
 
         public GSpellTimer(Int32 duration)
         {
+            lastCheck = MM_GetTime();
             dur = (uint)duration;
         }
 
@@ -77,10 +79,13 @@ namespace Pather
 
                 uint diff = now - lastCheck;
                 if (diff >= dur)
+                {
+                    Thread.Sleep(51);
                     return true;
+                }
 
-                Thread.Sleep(1000);
-                return true;
+                Thread.Sleep(51);
+                return false;
             }
         }
 
@@ -263,21 +268,14 @@ namespace Pather
             string myFaction = "Unknown";
 
 
-            BoogieCore.Log(LogType.System, "[Start] 1 ");
             ChunkedTriangleCollection triangleWorld = new ChunkedTriangleCollection(512);
-            BoogieCore.Log(LogType.System, "[Start] 2 ");
             triangleWorld.SetMaxCached(9);
-            BoogieCore.Log(LogType.System, "[Start] 3 ");
             triangleWorld.AddSupplier(mpq);
-            BoogieCore.Log(LogType.System, "[Start] 4 ");
 
             world = new PathGraph(CurrentContinent, triangleWorld, null);
-            BoogieCore.Log(LogType.System, "[Start] 5 ");
-            //world.locationHeuristics = radar;
-            //newMap = new AdvancedMap.Map();
-            //newMap.RunMap();
             mover = new Mover();
             radar = new UnitRadar();
+            BoogieCore.Log(LogType.System, "Pather loaded!");
 
             while (ShouldRun)
             {
@@ -567,7 +565,8 @@ namespace Pather
             bool doJump = random.Next(4) == 0;
             EasyMover em = null;
             GSpellTimer NewTargetUpdate = new GSpellTimer(1000);
-            bool WasInCombat = false;
+
+
             BoogieCore.Log(LogType.System, "[Approach] 2");
             do
             {
@@ -582,8 +581,8 @@ namespace Pather
                     mover.Stop();
                     return false;
                 }
-                BoogieCore.Log(LogType.System, "[Approach] 6");
                 double distance = monster.GetCoordinates().DistanceTo(BoogieCore.world.getPlayerObject().GetCoordinates());
+                BoogieCore.Log(LogType.System, "[Approach] 6 - Dist = {0}", distance);
                 bool moved;
                
                 if (distance < 8)
@@ -591,7 +590,7 @@ namespace Pather
                     loc = monster.GetCoordinates();
                     BoogieCore.Log(LogType.System, "[Approach] 7");
                     moved = mover.moveTowardsFacing(loc, 4.5f, loc);
-                    BoogieCore.Log(LogType.System, "[Approach] 8 {0}");
+                    BoogieCore.Log(LogType.System, "[Approach] 8 {0}", moved);
                 }
                 else
                 {
@@ -611,7 +610,7 @@ namespace Pather
                     }
                     BoogieCore.Log(LogType.System, "[Approach] 12");
                 }
-                BoogieCore.Log(LogType.System, "[Approach] 5");
+                BoogieCore.Log(LogType.System, "[Approach] 13");
 
                 if (!moved)
                 {

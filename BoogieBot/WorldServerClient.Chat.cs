@@ -211,10 +211,12 @@ namespace BoogieBot.Common
                     Object obj = BoogieCore.world.getObject(queue.GUID);
                     if (obj != null)
                     {
-                        TrackObject(obj);
-                        pather.Approach(obj, false, 20000);
+
                         string message = String.Format("Approaching {0}", obj.Name);
                         SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, message);
+                        TrackObject(obj);
+                        pather.Approach(obj, false, 20000);
+                        StopTrack();
                         
                         return;
                     }
