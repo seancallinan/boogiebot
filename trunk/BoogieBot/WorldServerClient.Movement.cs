@@ -173,6 +173,10 @@ namespace BoogieBot.Common
         {
             BuildMovePacket(OpCode.MSG_MOVE_JUMP, BoogieCore.world.getPlayerObject().GetCoordinates());
         }
+        public void BuildMovePacket(OpCode op)
+        {
+            BuildMovePacket(op, BoogieCore.World.getPlayerObject().GetCoordinates());
+        }
         public  void BuildMovePacket(OpCode op, Coordinate c)
         {
             BuildMovePacket(op, c.X, c.Y, c.Z, c.O);
