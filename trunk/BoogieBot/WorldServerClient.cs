@@ -154,12 +154,6 @@ namespace BoogieBot.Common
             Ping_Seq = 1;
             Latency = 1;
 
-            // Setup heartbeat timer for updating movement
-
-            MoveUpdateTimer.Elapsed += new ElapsedEventHandler(MoveHeartBeat);
-            MoveUpdateTimer.Interval = 500;
-            MoveUpdateTimer.Enabled = false;
-
             // Fire up pather
 
             pather = new Pather.PPather();
@@ -216,8 +210,6 @@ namespace BoogieBot.Common
 
         private void Update(UInt32 diff)
         {
-            //if (MoveUpdateTimer.Enabled == true)
-            //    UpdatePosition(diff);
 
         }
 
@@ -230,19 +222,6 @@ namespace BoogieBot.Common
 
             if (wait)   // Wait till this thread shuts down.
                 WorldThread.Join();
-        }
-
-        private void MoveHeartBeat(object source, ElapsedEventArgs e)
-        {
-            if (!mSocket.Connected)
-            {
-                MoveUpdateTimer.Enabled = false;
-                MoveUpdateTimer.Stop();
-                return;
-            }
-            if (BoogieCore.world.getPlayerObject().GetCoordinates() != null)
-                SendMoveHeartBeat();
-
         }
 
         private void Ping(object source, ElapsedEventArgs e)
