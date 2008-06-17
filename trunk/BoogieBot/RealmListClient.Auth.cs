@@ -122,30 +122,10 @@ namespace BoogieBot.Common
         {
             Sha1Hash sha;
             byte[] files_crc;
-            string[] crcfilenames;
 
-            switch (BoogieCore.wowType)
-            {
-                case WoWType.OSXppc:
-                case WoWType.OSXx86:
-                    crcfilenames = new string[] {
-                            "World of Warcraft.app/Contents/MacOS/World of Warcraft",
-                            "World of Warcraft.app/Contents/Info.plist",
-                            "World of Warcraft.app/Contents/Resources/Main.nib/objects.xib",
-                            "World of Warcraft.app/Contents/Resources/wow.icns",
-                            "World of Warcraft.app/Contents/PkgInfo" };
-                    break;
-
-                case WoWType.Win32:
-                    crcfilenames = new string[] { "WoW.exe", "fmod.dll", "ijl15.dll", "dbghelp.dll", "unicows.dll" };
-                    break;
-
-                default:
-                    throw new Exception();
-            }
 
             // Generate CRC/hashes of the Game Files
-            files_crc = GenerateCrc(crcsalt, crcfilenames);
+            files_crc = GenerateCrc(crcsalt);
 
             // get crc_hash from files_crc
             sha = new Sha1Hash();
@@ -162,7 +142,7 @@ namespace BoogieBot.Common
             wout.Flush();
         }
 
-        private byte[] GenerateCrc(byte[] crcsalt, string[] crcfilenames)
+        private byte[] GenerateCrc(byte[] crcsalt)
         {
             Sha1Hash sha;
 
@@ -185,20 +165,18 @@ namespace BoogieBot.Common
             sha.Update(buffer1);
 
 
-            foreach (string filename in crcfilenames)
+            try
             {
-                try
-                {
-                    FileStream fs = new FileStream(BoogieCore.wowPath + filename, FileMode.Open, FileAccess.Read);
-                    byte[] Buffer = new byte[fs.Length];
-                    fs.Read(Buffer, 0, (int)fs.Length);
-                    sha.Update(Buffer);
-                }
-                catch (Exception e)
-                {
-                    BoogieCore.Log(LogType.Error, e.Message);
-                }
+                FileStream fs = new FileStream("hash.bin", FileMode.Open, FileAccess.Read);
+                byte[] Buffer = new byte[fs.Length];
+                fs.Read(Buffer, 0, (int)fs.Length);
+                sha.Update(Buffer);
             }
+            catch (Exception e)
+            {
+                BoogieCore.Log(LogType.Error, e.Message);
+            }
+
             byte[] hash1 = sha.Final();
 
             sha = new Sha1Hash();
