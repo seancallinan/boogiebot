@@ -45,7 +45,8 @@ namespace Foole.Utils
 					else if (Count < 1)
 						break;
 	
-					tw.Write ("{0:X8} - ", j);
+					//tw.Write ("{0:X8} - ", j);
+                    tw.Write("|");
 	
 					for (int i = 0; i < 16; ++i)
 					{
@@ -55,6 +56,7 @@ namespace Foole.Utils
 							tw.Write ("   ");
 					}
 					//  Print the printable characters, or a period if unprintable.
+                    tw.Write("|");
 					for (int i = 0; i < Count; ++i)
 					{
 						byte Current = buffer[j + i];
@@ -63,7 +65,7 @@ namespace Foole.Utils
 						else
 							tw.Write ((char) Current);
 					}
-					tw.Write (Environment.NewLine);
+					tw.Write ("|" + Environment.NewLine);
 					j += 16;
 				}
 			}
