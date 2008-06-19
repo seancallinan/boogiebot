@@ -10,7 +10,7 @@ using System.Threading;
 using Foole.Crypt;
 using Foole.Utils;
 using Foole.WoW;
-using Pather;
+//using Pather;
 
 namespace BoogieBot.Common
 {
@@ -215,12 +215,18 @@ namespace BoogieBot.Common
                         string message = String.Format("Approaching {0}", obj.Name);
                         SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, message);
                         TrackObject(obj);
-                        pather.Approach(obj, false, 20000);
+                        //pather.Approach(obj, false, 20000);
                         StopTrack();
                         
                         return;
                     }
                     SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, String.Format("Unable to find {0} in obj list", username));
+                }
+
+                if (queue.Message == "t")
+                {
+                    StartTurn();
+                    SendChatMsg(ChatMsg.CHAT_MSG_SAY, Languages.LANG_UNIVERSAL, "Turning.");
                 }
                 if (queue.Message == "run")
                 {
@@ -251,7 +257,7 @@ namespace BoogieBot.Common
         {
             WoWWriter wr = new WoWWriter(OpCode.CMSG_MESSAGECHAT);
             wr.Write((UInt32)Type);
-            wr.Write((UInt32)Language);
+            wr.Write((UInt32)Languages.LANG_ORCISH);
             if ((Type == ChatMsg.CHAT_MSG_WHISPER || Type == ChatMsg.CHAT_MSG_CHANNEL) && To != "")
                 wr.Write(To);
             wr.Write(Message);
@@ -263,7 +269,7 @@ namespace BoogieBot.Common
         {
             WoWWriter wr = new WoWWriter(OpCode.CMSG_TEXT_EMOTE);
             wr.Write((UInt32)Type);
-            wr.Write((UInt32)Language);
+            wr.Write((UInt32)Languages.LANG_ORCISH);
             wr.Write(Message);
 
             Send(wr.ToArray());

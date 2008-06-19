@@ -282,9 +282,18 @@ namespace BoogieBot.Common
             mCrypt.Decrypt(Data, mRecvCryptSize);
 #if (LOG)
             WoWReader wr = new WoWReader(Data);
-            OpCode Op = (OpCode)wr.ReadUInt16();
-            tw.WriteLine("Server->Client Opcode: {1} Size: {0}", Data.Length, Op);
-            Debug.DumpBuffer(Data, Data.Length, tw);
+            UInt16 Op2 = wr.ReadUInt16();
+            OpCode Op = (OpCode)Op2;
+            int left = wr.Remaining;
+            tw.Write("{");
+            tw.Write("SERVER");
+            tw.Write("}");
+            tw.WriteLine(" Packet: (0x{2:x4}) {1} PacketSize = {0} TimeStamp = 0", Data.Length, Op, Op2);
+            tw.WriteLine("|------------------------------------------------|----------------|");
+            tw.WriteLine("|00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F |0123456789ABCDEF|");
+            tw.WriteLine("|------------------------------------------------|----------------|");
+            Debug.DumpBuffer(wr.ReadRemaining(), left, tw);
+            tw.WriteLine("-------------------------------------------------------------------");
             tw.WriteLine();
             tw.Flush();
 #endif
@@ -300,10 +309,19 @@ namespace BoogieBot.Common
 
 #if (LOG)
             WoWReader wr = new WoWReader(Data);
-            OpCode Op = (OpCode)wr.ReadUInt16();
+            UInt16 Op2 = wr.ReadUInt16();
+            OpCode Op = (OpCode)Op2;
+            int left = wr.Remaining;
 
-            tw.WriteLine("Client->Server OpCode: {1} Size: {0}", Data.Length, Op);
-            Debug.DumpBuffer(Data, Data.Length, tw);
+            tw.Write("{");
+            tw.Write("CLIENT");
+            tw.Write("}");
+            tw.WriteLine(" Packet: (0x{2:x4}) {1} PacketSize = {0} TimeStamp = 0", Data.Length, Op, Op2);
+            tw.WriteLine("|------------------------------------------------|----------------|");
+            tw.WriteLine("|00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F |0123456789ABCDEF|");
+            tw.WriteLine("|------------------------------------------------|----------------|");
+            Debug.DumpBuffer(wr.ReadRemaining(), left, tw);
+            tw.WriteLine("-------------------------------------------------------------------");
             tw.WriteLine();
             tw.Flush();
 #endif
